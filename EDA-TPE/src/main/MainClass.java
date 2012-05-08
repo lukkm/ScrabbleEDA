@@ -22,6 +22,8 @@ public class MainClass {
 //		dictionary.printAll();
 //		dictionary.printAppearences();
 	
+		System.out.println(dictionary.getAppearencesWith('Z'));
+		
 	}
 	
 }
