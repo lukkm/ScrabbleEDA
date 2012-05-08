@@ -40,7 +40,6 @@ public class Dictionary {
 		Character value;
 		Node[] sons = new Node[26];
 		boolean end = false;
-		int actualSons = 0;
 		
 		public Node(Character value) {
 			this.value = value;
@@ -58,7 +57,6 @@ public class Dictionary {
 			int offSet = value - 'A';
 			if (sons[offSet] == null){
 				sons[offSet] = new Node(value);
-				actualSons++;
 			}
 			return sons[offSet];
 		}
