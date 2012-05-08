@@ -8,10 +8,6 @@ public class Dictionary {
 
 	Node[] trees = new Node[26];
 	
-	public void printTree(int charPrint){
-		trees[charPrint].print();
-	}
-	
 	public void printAll(){
 		for(Node n : trees){
 			if (n != null)

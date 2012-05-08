@@ -15,7 +15,6 @@ public class MainClass {
 		Dictionary dictionary = new Dictionary();
 		
 		dictionary.addWord(lst);
-		dictionary.printTree('J' - 'A');
 		dictionary.printAll();
 	
 	}
