@@ -19,10 +19,10 @@ public class MainClass {
 		Dictionary dictionary = new Dictionary();
 		
 		dictionary.addWord(lst);
-//		dictionary.printAll();
+		dictionary.printAll();
 //		dictionary.printAppearences();
 	
-		System.out.println(dictionary.getAppearencesWith('Z'));
+//		System.out.println(dictionary.getAppearencesWith('C'));
 		
 	}
 	
