@@ -1,5 +1,7 @@
 package main;
 
+
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -20,10 +22,19 @@ public class Node {
 	}
 	
 	public Node getSon(Character value) {
-		Node auxNode = sons.get(value);
-		if (auxNode == null)
-			auxNode = sons.put(value, new Node(value));
-		return auxNode;
+		if (!sons.containsKey(value))
+			sons.put(value, new Node(value));
+		return sons.get(value);
 	}
 	
+	public void print() {
+		
+		System.out.println(value);
+		Collection <Node> col = sons.values();
+		if (col == null)
+			return;
+		for (Node e : col)
+			e.print();
+		
+	}
 }

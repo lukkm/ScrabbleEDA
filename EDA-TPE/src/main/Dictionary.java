@@ -1,5 +1,6 @@
 package main;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -22,11 +23,11 @@ public class Dictionary {
 			wordList.add(e);
 		Iterator<Character> it = wordList.iterator();
 		Character firstChar = it.next();
-		Node tree = trees.get(firstChar);
 		
-		if (tree == null)
-			tree = trees.put(firstChar, new Node(firstChar));
-		tree.addWord(it);
+		
+		if (!trees.containsKey(firstChar))
+			trees.put(firstChar, new Node(firstChar));
+		trees.get(firstChar).addWord(it);
 	}
 	
 }

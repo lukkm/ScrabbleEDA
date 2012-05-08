@@ -1,5 +1,6 @@
 package main;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,8 +12,8 @@ public class MainClass {
 		List<String> wordsList = new ArrayList<String> ();
 		
 		wordsList.add("JUANJO");
-		wordsList.add("CASA");
-		wordsList.add("QUESO");
+		wordsList.add("JUASA");
+		wordsList.add("JUASE");
 		wordsList.add("CARETA");
 		wordsList.add("LUKI");
 		
