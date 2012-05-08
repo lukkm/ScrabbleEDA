@@ -107,16 +107,11 @@ public class Dictionary {
 		}
 		
 		public void printWords(){
-			printWords("");
-		}
-		
-		private void printWords(String str){
-			String strNew = str + this.value.toString();
 			if (end)
-				System.out.println(strNew);
+				System.out.println(word);
 			for (Node n : sons)
 				if (n != null)
-					n.printWords(strNew);
+					n.printWords();
 		}
 		
 		public void getAppearencesOf(Character value, List<Node> list) {
