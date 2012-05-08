@@ -1,12 +1,16 @@
 package main;
 
 
+import helpers.Parser;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainClass {
 
 	public static void main(String[] args){
+		
+		List<String> lst = Parser.parseWords("C:\\wordfile.txt");
 
 //		List<String> wordsList = Parser.parseWords("archivo.txt");
 		List<String> wordsList = new ArrayList<String> ();
@@ -19,7 +23,8 @@ public class MainClass {
 		
 		Dictionary dictionary = new Dictionary();
 		
-		dictionary.addWord(wordsList);
+		dictionary.addWord(lst);
+	
 	}
 	
 }
