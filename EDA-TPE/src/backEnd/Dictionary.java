@@ -22,6 +22,14 @@ public class Dictionary {
 		System.out.println(charAppearences);
 	}
 	
+	public List<String> getAppearencesWith(Character value) {
+		List<String> newList = new ArrayList<String> ();
+		for (Node n: charAppearences.get(value)) {
+			n.getWords(newList);
+		}
+		return newList;
+	}
+	
 	public void addWord(List<String> wordsList) {
 		for (String word : wordsList)
 			addWord(word);
@@ -39,7 +47,7 @@ public class Dictionary {
 		int offSet = firstChar - 'A';
 		
 		if (trees[offSet] == null)
-			trees[offSet] = new Node(firstChar);
+			trees[offSet] = new Node(firstChar, firstChar.toString());
 		trees[offSet].addWord(it);
 	}
 
@@ -63,9 +71,11 @@ public class Dictionary {
 		Node[] sons = new Node[26];
 		boolean end = false;
 		int actualSons = 0;
+		String word;
 		
-		public Node(Character value) {
+		public Node(Character value, String word) {
 			this.value = value;
+			this.word = word;
 		}
 		
 		public void addWord(Iterator<Character> it){
@@ -79,7 +89,7 @@ public class Dictionary {
 		public Node getSon(Character value) {
 			int offSet = value - 'A';
 			if (sons[offSet] == null){
-				sons[offSet] = new Node(value);
+				sons[offSet] = new Node(value, word + value);
 				actualSons++;
 			}
 			return sons[offSet];
@@ -120,6 +130,15 @@ public class Dictionary {
 					n.getAppearencesOf(value, list);
 			}
 			
+		}
+		
+		public void getWords(List<String> list) {
+			if (end)
+				list.add(word);
+			for (Node n: sons) {
+				if (n != null)
+					n.getWords(list);
+			}
 		}
 		
 		public String toString(){
