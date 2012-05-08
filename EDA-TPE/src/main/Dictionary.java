@@ -63,17 +63,6 @@ public class Dictionary {
 			return sons[offSet];
 		}
 		
-		public void print() {
-			System.out.println(value);
-			if (actualSons == 0)
-				return;
-			for (Node e : sons){
-				if (e != null)
-					e.print();
-			}
-			
-		}
-		
 		public void printWords(){
 			printWords("");
 		}

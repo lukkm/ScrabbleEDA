@@ -3,7 +3,6 @@ package main;
 
 import helpers.Parser;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainClass {
