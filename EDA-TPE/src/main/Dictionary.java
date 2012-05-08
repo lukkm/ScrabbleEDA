@@ -12,6 +12,13 @@ public class Dictionary {
 		trees[charPrint].print();
 	}
 	
+	public void printAll(){
+		for(Node n : trees){
+			if (n != null)
+				n.printWords();
+		}
+	}
+	
 	public void addWord(List<String> wordsList) {
 		for (String word : wordsList)
 			addWord(word);
@@ -69,6 +76,19 @@ public class Dictionary {
 					e.print();
 			}
 			
+		}
+		
+		public void printWords(){
+			printWords("");
+		}
+		
+		private void printWords(String str){
+			String strNew = str + this.value.toString();
+			if (end)
+				System.out.println(strNew);
+			for (Node n : sons)
+				if (n != null)
+					n.printWords(strNew);
 		}
 	}
 	
