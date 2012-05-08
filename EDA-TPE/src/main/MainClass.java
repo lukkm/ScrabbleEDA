@@ -19,7 +19,8 @@ public class MainClass {
 		Dictionary dictionary = new Dictionary();
 		
 		dictionary.addWord(lst);
-		dictionary.printAll();
+//		dictionary.printAll();
+//		dictionary.printAppearences();
 	
 	}
 	
