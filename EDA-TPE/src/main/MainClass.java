@@ -6,6 +6,8 @@ import helpers.Parser;
 
 import java.util.List;
 
+import backEnd.Dictionary;
+
 public class MainClass {
 
 	public static void main(String[] args){
