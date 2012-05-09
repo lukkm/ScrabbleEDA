@@ -73,11 +73,13 @@ public class Dictionary {
 		
 		List<String> lstAns = new ArrayList<String>();
 		
-		for(Node n : charAppearences.get(c)){
-			if (n.validateNode(letters))
-				n.getFilterWords(letters, lstAns);
+		if (letters[c] != 0){
+			for(Node n : charAppearences.get(c)){
+				if (n.validateNode(letters))
+					n.getFilterWords(letters, lstAns);
+			}
 		}
-		
+			
 		return lstAns;
 	}
 	
@@ -113,7 +115,7 @@ public class Dictionary {
 		
 		public boolean validateNode(int[] letters){
 			for (Character c : word.getChars()){
-				if (letters[c - 'A'] < word.getAppearencesOf(c));
+				if (letters[c - 'A'] < word.getAppearencesOf(c))
 					return false;
 			}
 			return true;
