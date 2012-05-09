@@ -12,7 +12,7 @@ public class Board {
 	}
 	
 	public Board(Board board) {
-		this.board = board.getMatrix(); 
+		this.board = board.board.clone();
 	}
 	
 	public boolean addWord(String word, Letter locatedLetter, int charPosition){
@@ -30,8 +30,7 @@ public class Board {
 		for (int i = 0; i < length; i++){
 			int posX = startX + i * rot.getX();
 			int posY = startY + i * rot.getY();
-			if (board[posX][posY].getValue() != word.charAt(i) && 
-					board[posX][posY] != null)
+			if (board[posX][posY] != null && board[posX][posY].getValue() != word.charAt(i))
 				return false;
   
 		}
@@ -46,9 +45,11 @@ public class Board {
 	public List<Letter> getAvailableLetters() {
 		List<Letter> lettersList = new ArrayList<Letter> ();
 		for (Letter[] lY : board)
-			for (Letter lX : lY)
-				if (lX.getRotation() != Rotation.NONE)
-					lettersList.add(lX);
+			for (Letter lX : lY) {
+				if (lX != null)
+					if (lX.getRotation() != Rotation.NONE)
+						lettersList.add(lX);
+			}
 		return lettersList;
 	}
 	
@@ -60,17 +61,13 @@ public class Board {
 		return board[x][y];
 	}
 	
-	public Letter[][] getMatrix(){
-		return this.board;
-	}
-	
 	public void print() {
 		for (Letter[] lY : board) {
 			for (Letter lX : lY) {
 				if (lX == null)
-					System.out.print("-");
+					System.out.print(" - ");
 				else
-					System.out.print(lX.getValue());
+					System.out.print(" " + lX.getValue() + " ");
 			}
 			System.out.println();
 		}

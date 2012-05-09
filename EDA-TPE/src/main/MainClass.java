@@ -7,6 +7,7 @@ import helpers.Parser;
 import java.util.List;
 
 import backEnd.Dictionary;
+import backEnd.GameLogic;
 import backEnd.HandLetters;
 
 public class MainClass {
@@ -24,8 +25,9 @@ public class MainClass {
 		
 		dictionary.addWords(lst);
 		
-		System.out.println(dictionary.filterWords(letters.getLetters()));
-		System.out.println(dictionary.filterWordsWith(letters.getLetters(), 'Z'));
+		GameLogic game = new GameLogic(dictionary, letters);
+		
+		game.startGame();
 		
 		System.out.println(System.currentTimeMillis() - a);
 		
