@@ -5,7 +5,6 @@ import helpers.StringIterator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -75,14 +74,13 @@ public class Dictionary {
 		Character value;
 		Node[] sons = new Node[26];
 		boolean end = false;
-		String word;
-		Map<Character, Integer> letterAppearences;
+		Word word;
 		int score;
 		
-		public Node(Character value, String word, int score) {
+		public Node(Character value, String previousWord, int previousScore) {
 			this.value = value;
-			this.word = word;
-			this.score = score;
+			this.word = new Word(previousWord + value);
+			this.score = previousScore + scores.getScores()[value - 'A'];
 		}
 		
 		public void addWord(StringIterator it){
@@ -90,25 +88,14 @@ public class Dictionary {
 				getSon(it.next()).addWord(it);
 			else {
 				end = true;
-				letterAppearences = new HashMap<Character, Integer>();
-				generateLetterAppearences();
 			}
 			return;
-		}
-		
-		private void generateLetterAppearences(){
-			for (Character c : word.toCharArray()){
-				if (letterAppearences.containsKey(c))
-					letterAppearences.put(c, letterAppearences.get(c) + 1);
-				else
-					letterAppearences.put(c, 1);
-			}
 		}
 		
 		public Node getSon(Character value) {
 			int offSet = value - 'A';
 			if (sons[offSet] == null){
-				sons[offSet] = new Node(value, word + value, score + scores.getScores()[value - 'A']);
+				sons[offSet] = new Node(value, word.getWord(), score);
 			}
 			return sons[offSet];
 		}
@@ -136,7 +123,7 @@ public class Dictionary {
 		
 		public void getWords(List<String> list) {
 			if (end)
-				list.add(word);
+				list.add(word.getWord());
 			for (Node n: sons) {
 				if (n != null)
 					n.getWords(list);
