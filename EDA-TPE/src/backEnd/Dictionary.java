@@ -76,6 +76,7 @@ public class Dictionary {
 		Node[] sons = new Node[26];
 		boolean end = false;
 		String word;
+		Map<Character, Integer> letterAppearences;
 		int score;
 		
 		public Node(Character value, String word, int score) {
@@ -87,9 +88,21 @@ public class Dictionary {
 		public void addWord(StringIterator it){
 			if (it.hasNext())
 				getSon(it.next()).addWord(it);
-			else
+			else {
 				end = true;
+				letterAppearences = new HashMap<Character, Integer>();
+				generateLetterAppearences();
+			}
 			return;
+		}
+		
+		private void generateLetterAppearences(){
+			for (Character c : word.toCharArray()){
+				if (letterAppearences.containsKey(c))
+					letterAppearences.put(c, letterAppearences.get(c) + 1);
+				else
+					letterAppearences.put(c, 1);
+			}
 		}
 		
 		public Node getSon(Character value) {
