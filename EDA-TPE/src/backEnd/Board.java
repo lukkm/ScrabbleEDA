@@ -12,7 +12,11 @@ public class Board {
 	}
 	
 	public Board(Board board) {
-		this.board = board.board.clone();
+		for (int i = 0; i < 15; i++){
+			for(int j = 0; j < 15; j++){
+				this.board[i][j] = board.getPosition(i, j);
+			}
+		}
 	}
 	
 	public boolean addWord(String word, Letter locatedLetter, int charPosition){
@@ -62,6 +66,7 @@ public class Board {
 	}
 	
 	public void print() {
+		System.out.println();
 		for (Letter[] lY : board) {
 			for (Letter lX : lY) {
 				if (lX == null)
@@ -71,6 +76,7 @@ public class Board {
 			}
 			System.out.println();
 		}
+		System.out.println();
 	}
 	
 }
