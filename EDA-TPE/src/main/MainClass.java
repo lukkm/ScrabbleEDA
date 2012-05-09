@@ -22,10 +22,10 @@ public class MainClass {
 		
 		Dictionary dictionary = new Dictionary(scores);
 		
-		dictionary.addWord(lst);
+		dictionary.addWords(lst);
 		
 		System.out.println(dictionary.filterWords(letters.getLetters()));
-		System.out.println(dictionary.filterWordsWith(letters.getLetters(), 'A'));
+		System.out.println(dictionary.filterWordsWith(letters.getLetters(), 'Q'));
 		
 		System.out.println(System.currentTimeMillis() - a);
 		

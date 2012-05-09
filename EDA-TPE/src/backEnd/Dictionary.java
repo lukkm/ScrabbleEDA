@@ -37,7 +37,7 @@ public class Dictionary {
 		return newList;
 	}
 	
-	public void addWord(List<String> wordsList) {
+	public void addWords(List<String> wordsList) {
 		for (String word : wordsList)
 			addWord(word);
 		updateAppearences();
@@ -113,7 +113,7 @@ public class Dictionary {
 		
 		public boolean validateNode(int[] letters){
 			for (Character c : word.getChars()){
-				if (letters[c - 'A'] < word.getAppearencesOf(c));
+				if (letters[c - 'A'] < word.getAppearencesOf(c))
 					return false;
 			}
 			return true;
