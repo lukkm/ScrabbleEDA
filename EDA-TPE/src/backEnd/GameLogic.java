@@ -33,14 +33,15 @@ public class GameLogic {
 			locateAllWords(wordsList, board);
 		}
 		else {
+			boolean isFinal = true;
 			for (Letter l : board.getAvailableLetters()) {
 				wordsList = dictionary.filterWordsWith(letters.getLetters(), l.getValue());
-				if (wordsList.isEmpty()){
-					board.print();
-					return;
-				}
-				locateAllWordsIn(wordsList, l, board);
+				if (!wordsList.isEmpty())
+					isFinal = false;
+					locateAllWordsIn(wordsList, l, board);
 			}
+			if (isFinal)
+				board.print();
 		}
 	}
 	
