@@ -7,8 +7,10 @@ public class Step {
 
 	private Map<Character, Integer> lettersUsed = new HashMap<Character, Integer> ();
 	private Character boardLetterUsed;
+	private boolean firstStep;
 	
 	public Step(Character boardLetterUsed, String word, int[] letters, boolean firstStep) {
+		this.firstStep = firstStep;
 		this.boardLetterUsed = boardLetterUsed;
 		for (char c : word.toCharArray()) {
 			letters[c - 'A']--;
@@ -29,7 +31,7 @@ public class Step {
 		for (Character c : lettersUsed.keySet()) {
 			letters[c - 'A'] += lettersUsed.get(c);
 		}
-		if (boardLetterUsed != null)
+		if (!firstStep)
 			letters[boardLetterUsed - 'A']--;
 	}
 	
