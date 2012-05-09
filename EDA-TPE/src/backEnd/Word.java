@@ -25,5 +25,9 @@ public class Word {
 	public String getWord() {
 		return this.value;
 	}
+	
+	public int getAppearencesOf(Character c){
+		return letterAppearences.get(c);
+	}
 
 }

@@ -38,7 +38,7 @@ public class Parser {
 		
 	}
 	
-	public static Map<Character, Integer> parseLetters(String file){
+	public static String parseLetters(String file){
 		
 		File inputFile = new File(file);
 		BufferedReader inputLetters;
@@ -56,20 +56,13 @@ public class Parser {
 		try {
 			line = inputLetters.readLine();
 			if (line == null)
-				return null;
-			line.toUpperCase();
-			char[] chrArray = line.toCharArray();
-			for (char c : chrArray){
-				if (mapReturn.containsKey(c))
-					mapReturn.put(c, mapReturn.get(c) + 1);
-				else
-					mapReturn.put(c, 1);
-			}
+				return "";
+			return line;
 		} catch (IOException e) {
 			System.out.println("Archivo invalido");
 		}
 		
-		return mapReturn;
+		return "";
 	}
 
 }

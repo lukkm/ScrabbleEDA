@@ -51,7 +51,7 @@ public class Dictionary {
 		int offSet = firstChar - 'A';
 		
 		if (trees[offSet] == null)
-			trees[offSet] = new Node(firstChar, firstChar.toString(), scores.getScores()[firstChar-'A']);
+			trees[offSet] = new Node(firstChar, "", 0);
 		trees[offSet].addWord(it);
 	}
 
@@ -65,9 +65,24 @@ public class Dictionary {
 				if (n != null)
 					n.getAppearencesOf(c, charAppearences.get(c));
 			}
-		}
-			
+		}		
 	}
+	
+	
+	public List<String> filterWords(int[] letters){
+		
+		List<String> lstAns = new ArrayList<String>();
+		
+		for(Node n : trees){
+			if (n != null)
+				n.getFilterWords(letters, lstAns);
+		}
+		
+		return lstAns;
+		
+	}
+	
+	
 	
 	private class Node {
 
@@ -118,7 +133,16 @@ public class Dictionary {
 				if (n != null)
 					n.getAppearencesOf(value, list);
 			}
-			
+		}
+		
+		public void getFilterWords(int[] letters, List<String> lst){
+			if (word.getAppearencesOf(value) <= letters[value - 'A']){
+				if (end)
+					lst.add(word.getWord());
+				for(Node n : sons)
+					if (n != null)
+						n.getFilterWords(letters, lst);
+			}
 		}
 		
 		public void getWords(List<String> list) {
