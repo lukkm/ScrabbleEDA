@@ -69,6 +69,19 @@ public class Dictionary {
 	}
 	
 	
+	public List<String> filterWordsWith(int[] letters, char c){
+		
+		List<String> lstAns = new ArrayList<String>();
+		
+		for(Node n : charAppearences.get(c)){
+			if (n.validateNode(letters))
+				n.getFilterWords(letters, lstAns);
+		}
+		
+		return lstAns;
+	}
+	
+	
 	public List<String> filterWords(int[] letters){
 		
 		List<String> lstAns = new ArrayList<String>();
@@ -96,6 +109,14 @@ public class Dictionary {
 			this.value = value;
 			this.word = new Word(previousWord + value);
 			this.score = previousScore + scores.getScores()[value - 'A'];
+		}
+		
+		public boolean validateNode(int[] letters){
+			for (Character c : word.getChars()){
+				if (letters[c - 'A'] < word.getAppearencesOf(c));
+					return false;
+			}
+			return true;
 		}
 		
 		public void addWord(StringIterator it){

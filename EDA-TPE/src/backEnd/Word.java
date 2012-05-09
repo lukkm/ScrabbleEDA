@@ -2,6 +2,7 @@ package backEnd;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class Word {
 	
@@ -28,6 +29,10 @@ public class Word {
 	
 	public int getAppearencesOf(Character c){
 		return letterAppearences.get(c);
+	}
+	
+	public Set<Character> getChars(){
+		return letterAppearences.keySet();
 	}
 
 }
