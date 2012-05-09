@@ -1,6 +1,7 @@
 package backEnd;
 
 import helpers.CharValues;
+import helpers.StringIterator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,14 +45,8 @@ public class Dictionary {
 	}
 	
 	private void addWord(String word) {
-		// cambiar
-		char[] wordArray = word.toCharArray();
-		List<Character> wordList = new ArrayList<Character> ();
-		for (char e : wordArray)
-			wordList.add(e);
-		Iterator<Character> it = wordList.iterator();
-		// hasta aca
-		
+	
+		StringIterator it = new StringIterator(word);		
 		Character firstChar = it.next();
 		
 		int offSet = firstChar - 'A';
@@ -89,7 +84,7 @@ public class Dictionary {
 			this.score = score;
 		}
 		
-		public void addWord(Iterator<Character> it){
+		public void addWord(StringIterator it){
 			if (it.hasNext())
 				getSon(it.next()).addWord(it);
 			else

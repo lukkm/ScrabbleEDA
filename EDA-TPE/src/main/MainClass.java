@@ -16,10 +16,14 @@ public class MainClass {
 		
 		List<String> lst = Parser.parseWords("C:\\wordfile.txt");
 		
+		long a = System.currentTimeMillis();
+		
 		Dictionary dictionary = new Dictionary(scores);
 		
 		dictionary.addWord(lst);
-		dictionary.printAll();
+		
+		System.out.println(System.currentTimeMillis() - a);
+//		dictionary.printAll();
 //		dictionary.printAppearences();
 		System.out.println(dictionary.getAppearencesWith('A'));
 		
