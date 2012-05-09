@@ -73,13 +73,11 @@ public class Dictionary {
 		
 		List<String> lstAns = new ArrayList<String>();
 		
-		if (letters[c] != 0){
-			for(Node n : charAppearences.get(c)){
-				if (n.validateNode(letters))
-					n.getFilterWords(letters, lstAns);
-			}
+		for(Node n : charAppearences.get(c)){
+			if (n.validateNode(letters))
+				n.getFilterWords(letters, lstAns);
 		}
-			
+		
 		return lstAns;
 	}
 	

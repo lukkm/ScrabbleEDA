@@ -15,29 +15,55 @@ public class GameLogic {
 	
 	public void startGame(){
 		Board board = new Board();
-		calculateStep(board, letters.getLetters());
+		calculateStep(board);
 	}
 	
-	public void calculateStep(Board board, int[] letters) {
-		List<String> wordsList = new ArrayList<String>();
+	public void calculateStep(Board board) {
+		List<String> wordsList;
 		List<Letter> charList = board.getLetters();
 		if (charList.isEmpty()) {
-			wordsList = dictionary.filterWords(letters);
+			wordsList = dictionary.filterWords(letters.getLetters());
+			locateAllWords(wordsList, board);
 		}
 		else {
-			for (Letter c : board.getLetters()) {
-				wordsList.addAll(dictionary.filterWordsWith(letters, c));
+			for (Letter l : board.getLetters()) {
+				wordsList = dictionary.filterWordsWith(letters.getLetters(), l.getValue());
+				locateAllWordsIn(wordsList, l, board);
 			}
-		}
-		
-		for (String word : wordsList) {
-			locateWord(board, word);
 		}
 	}
 	
-	private void locateWord(Board board, String word) {
+	private void locateAllWords(List<String> wordsList, Board board) {
+		for (String s : wordsList) {
+			for (char c : s.toCharArray()) {
+				Letter l = new Letter(c, 7, 7, Rotation.HORIZONTAL);
+				Board newBoard = locateWord(board, s, l);
+				if (newBoard == null)
+					return;
+				//Resta de las letters
+				calculateStep(newBoard);
+				//Suma las letters
+			}
+			
+		}
+	}
+	
+	private void locateAllWordsIn(List<String> wordsList, Letter l, Board board){
+		for (String s : wordsList) {
+			Board newBoard = locateWord(board, s, l);
+			if (newBoard == null)
+				return;
+			//Resta de las letters
+			calculateStep(newBoard);
+			//Suma las letters
+		}
+	}
+	
+	private Board locateWord(Board board, String word, Letter l, int letterPosition) {
 		
 		Board newBoard = new Board(board);
-		newBoard.addWord(word, startingPoint);
+		if (newBoard.addWord(word, l, letterPosition))
+			return newBoard;
+		return null;
 	}
 }

@@ -5,19 +5,19 @@ public enum Rotation {
 	HORIZONTAL(1,0),
 	VERTICAL(0,1);
 	
-	private int left, top;
+	private int x, y;
 	
-	private Rotation(int left, int top){
-		this.left = left;
-		this.top = top;
+	private Rotation(int x, int y){
+		this.x = x;
+		this.y = y;
 	}
 	
-	public int getLeft(){
-		return left;
+	public int getX(){
+		return x;
 	}
 	
-	public int getTop(){
-		return top;
+	public int getY(){
+		return y;
 	}
 	
 }
