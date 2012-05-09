@@ -1,11 +1,14 @@
 package backEnd;
 
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.List;
 
 public class GameLogic {
 
 	private Dictionary dictionary;
 	private HandLetters letters;
+	private Deque<Step> stepStack = new LinkedList<Step> ();
 	
 	public GameLogic(Dictionary dictionary, HandLetters letters) {
 		this.dictionary = dictionary;
@@ -22,11 +25,20 @@ public class GameLogic {
 		List<Letter> charList = board.getAvailableLetters();
 		if (charList.isEmpty()) {
 			wordsList = dictionary.filterWords(letters.getLetters());
+			//Cambiarlo despues
+			if (wordsList.isEmpty()){
+				return;
+			}
+			//Hasta aca
 			locateAllWords(wordsList, board);
 		}
 		else {
 			for (Letter l : board.getAvailableLetters()) {
 				wordsList = dictionary.filterWordsWith(letters.getLetters(), l.getValue());
+				if (wordsList.isEmpty()){
+					board.print();
+					return;
+				}
 				locateAllWordsIn(wordsList, l, board);
 			}
 		}
@@ -36,12 +48,7 @@ public class GameLogic {
 		for (String s : wordsList) {
 			for (int i = 0 ; i < s.length() ; i++) {
 				Letter l = new Letter(s.charAt(i), 7, 7, Rotation.HORIZONTAL);
-				Board newBoard = locateWord(board, s, l, i);
-				if (newBoard == null)
-					return;
-				//Resta de las letters
-				calculateStep(newBoard);
-				//Suma las letters
+				takeStep(s, l, board, i, true);
 			}
 			
 		}
@@ -51,15 +58,19 @@ public class GameLogic {
 		for (String s : wordsList) {
 			for (int i = 0 ; i < s.length() ; i++) {
 				if (s.charAt(i) == l.getValue()) { 
-					Board newBoard = locateWord(board, s, l, i);
-					if (newBoard == null)
-						return;
-					//Resta de las letters
-					calculateStep(newBoard);
-					//Suma las letters
+					takeStep(s, l, board, i, false);
 				}
 			}
 		}
+	}
+	
+	private void takeStep(String word, Letter letter, Board board, int charPosition, boolean firstStep) {
+		Board newBoard = locateWord(board, word, letter, charPosition);
+		if (newBoard == null)
+			return;
+		stepStack.push(new Step(letter.getValue(), word, letters.getLetters(), firstStep));
+		calculateStep(newBoard);
+		stepStack.pop().refreshLetters(letters.getLetters());
 	}
 	
 	private Board locateWord(Board board, String word, Letter l, int letterPosition) {

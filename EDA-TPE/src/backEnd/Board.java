@@ -38,7 +38,7 @@ public class Board {
 		for (int i = 0; i < length; i++){
 			int posX = startX + i * rot.getX();
 			int posY = startY + i * rot.getY();
-			board[posX][posY] = new Letter(word.charAt(i), posX, posY, board[posX][posY] == null ? rot : Rotation.NONE); 
+			board[posX][posY] = new Letter(word.charAt(i), posX, posY, board[posX][posY] == null ? rot.change() : Rotation.NONE); 
 		}
 		return true;
 	}
@@ -62,6 +62,18 @@ public class Board {
 	
 	public Letter[][] getMatrix(){
 		return this.board;
+	}
+	
+	public void print() {
+		for (Letter[] lY : board) {
+			for (Letter lX : lY) {
+				if (lX == null)
+					System.out.print("-");
+				else
+					System.out.print(lX.getValue());
+			}
+			System.out.println();
+		}
 	}
 	
 }

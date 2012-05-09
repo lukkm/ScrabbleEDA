@@ -21,4 +21,9 @@ public enum Rotation {
 		return y;
 	}
 	
+	public Rotation change() {
+		if (this.equals(Rotation.HORIZONTAL))
+			return Rotation.VERTICAL;
+		return Rotation.HORIZONTAL;
+	}
 }
