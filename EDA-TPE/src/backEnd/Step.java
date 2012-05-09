@@ -15,8 +15,7 @@ public class Step {
 			int aux = 0;
 			if (lettersUsed.containsKey(c))
 				aux = lettersUsed.get(c);
-			else
-				lettersUsed.put(c, aux + 1);
+			lettersUsed.put(c, aux + 1);
 		}
 		if (!firstStep)
 			letters[boardLetterUsed - 'A']++;
