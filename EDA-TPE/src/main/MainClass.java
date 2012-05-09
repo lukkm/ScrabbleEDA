@@ -16,13 +16,12 @@ public class MainClass {
 		
 		List<String> lst = Parser.parseWords("C:\\wordfile.txt");
 		
-		Dictionary dictionary = new Dictionary();
+		Dictionary dictionary = new Dictionary(scores);
 		
 		dictionary.addWord(lst);
 		dictionary.printAll();
 //		dictionary.printAppearences();
-	
-//		System.out.println(dictionary.getAppearencesWith('C'));
+		System.out.println(dictionary.getAppearencesWith('A'));
 		
 	}
 	

@@ -1,5 +1,7 @@
 package backEnd;
 
+import helpers.CharValues;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -8,8 +10,13 @@ import java.util.Map;
 
 public class Dictionary {
 
-	Node[] trees = new Node[26];
-	Map<Character, List<Node>> charAppearences = new HashMap<Character, List<Node>> ();
+	private Node[] trees = new Node[26];
+	private Map<Character, List<Node>> charAppearences = new HashMap<Character, List<Node>> ();
+	private CharValues scores;
+	
+	public Dictionary(CharValues scores){
+		this.scores = scores;
+	}
 	
 	public void printAll(){
 		for(Node n : trees){
@@ -37,17 +44,20 @@ public class Dictionary {
 	}
 	
 	private void addWord(String word) {
+		// cambiar
 		char[] wordArray = word.toCharArray();
 		List<Character> wordList = new ArrayList<Character> ();
 		for (char e : wordArray)
 			wordList.add(e);
 		Iterator<Character> it = wordList.iterator();
+		// hasta aca
+		
 		Character firstChar = it.next();
 		
 		int offSet = firstChar - 'A';
 		
 		if (trees[offSet] == null)
-			trees[offSet] = new Node(firstChar, firstChar.toString());
+			trees[offSet] = new Node(firstChar, firstChar.toString(), scores.getScores()[firstChar-'A']);
 		trees[offSet].addWord(it);
 	}
 
@@ -70,12 +80,13 @@ public class Dictionary {
 		Character value;
 		Node[] sons = new Node[26];
 		boolean end = false;
-		int actualSons = 0;
 		String word;
+		int score;
 		
-		public Node(Character value, String word) {
+		public Node(Character value, String word, int score) {
 			this.value = value;
 			this.word = word;
+			this.score = score;
 		}
 		
 		public void addWord(Iterator<Character> it){
@@ -89,26 +100,14 @@ public class Dictionary {
 		public Node getSon(Character value) {
 			int offSet = value - 'A';
 			if (sons[offSet] == null){
-				sons[offSet] = new Node(value, word + value);
-				actualSons++;
+				sons[offSet] = new Node(value, word + value, score + scores.getScores()[value - 'A']);
 			}
 			return sons[offSet];
 		}
 		
-		public void print() {
-			System.out.println(value);
-			if (actualSons == 0)
-				return;
-			for (Node e : sons){
-				if (e != null)
-					e.print();
-			}
-			
-		}
-		
 		public void printWords(){
 			if (end)
-				System.out.println(word);
+				System.out.println(word + " " + score);
 			for (Node n : sons)
 				if (n != null)
 					n.printWords();
