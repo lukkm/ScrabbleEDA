@@ -1,11 +1,18 @@
 package backEnd;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Board {
 
-	private char[][] board = new char[15][15];
+	private Letter[][] board = new Letter[15][15];
+	
+	public Board() {
+		
+	}
 	
 	public Board(Board board) {
-		this.board = board.getChars(); 
+		this.board = board.getMatrix(); 
 	}
 	
 	public boolean addWord(String word, Letter locatedLetter, int charPosition){
@@ -21,26 +28,39 @@ public class Board {
 		if (startX + length * rot.getX() > board.length - 1 || startY + length * rot.getY() > board.length - 1)
 			return false;
 		for (int i = 0; i < length; i++){
-			if (board[startX + i * rot.getX()][startY + i * rot.getY()] != word.charAt(i) && 
-					board[startX + i * rot.getX()][startY + i * rot.getY()] != 0)
+			int posX = startX + i * rot.getX();
+			int posY = startY + i * rot.getY();
+			if (board[posX][posY].getValue() != word.charAt(i) && 
+					board[posX][posY] != null)
 				return false;
   
 		}
 		for (int i = 0; i < length; i++){
-			board[startX + i * rot.getX()][startY + i * rot.getY()] = word.charAt(i); 
+			int posX = startX + i * rot.getX();
+			int posY = startY + i * rot.getY();
+			board[posX][posY] = new Letter(word.charAt(i), posX, posY, board[posX][posY] == null ? rot : Rotation.NONE); 
 		}
 		return true;
 	}
 	
-	public void setPosition(int x, int y, char c){
+	public List<Letter> getAvailableLetters() {
+		List<Letter> lettersList = new ArrayList<Letter> ();
+		for (Letter[] lY : board)
+			for (Letter lX : lY)
+				if (lX.getRotation() != Rotation.NONE)
+					lettersList.add(lX);
+		return lettersList;
+	}
+	
+	public void setPosition(int x, int y, Letter c){
 		board[x][y] = c;
 	}
 	
-	public char getPosition(int x, int y){
+	public Letter getPosition(int x, int y){
 		return board[x][y];
 	}
 	
-	public char[][] getChars(){
+	public Letter[][] getMatrix(){
 		return this.board;
 	}
 	

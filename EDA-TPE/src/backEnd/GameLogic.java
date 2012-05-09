@@ -1,6 +1,5 @@
 package backEnd;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class GameLogic {
@@ -20,13 +19,13 @@ public class GameLogic {
 	
 	public void calculateStep(Board board) {
 		List<String> wordsList;
-		List<Letter> charList = board.getLetters();
+		List<Letter> charList = board.getAvailableLetters();
 		if (charList.isEmpty()) {
 			wordsList = dictionary.filterWords(letters.getLetters());
 			locateAllWords(wordsList, board);
 		}
 		else {
-			for (Letter l : board.getLetters()) {
+			for (Letter l : board.getAvailableLetters()) {
 				wordsList = dictionary.filterWordsWith(letters.getLetters(), l.getValue());
 				locateAllWordsIn(wordsList, l, board);
 			}
@@ -35,9 +34,9 @@ public class GameLogic {
 	
 	private void locateAllWords(List<String> wordsList, Board board) {
 		for (String s : wordsList) {
-			for (char c : s.toCharArray()) {
-				Letter l = new Letter(c, 7, 7, Rotation.HORIZONTAL);
-				Board newBoard = locateWord(board, s, l);
+			for (int i = 0 ; i < s.length() ; i++) {
+				Letter l = new Letter(s.charAt(i), 7, 7, Rotation.HORIZONTAL);
+				Board newBoard = locateWord(board, s, l, i);
 				if (newBoard == null)
 					return;
 				//Resta de las letters
@@ -50,12 +49,16 @@ public class GameLogic {
 	
 	private void locateAllWordsIn(List<String> wordsList, Letter l, Board board){
 		for (String s : wordsList) {
-			Board newBoard = locateWord(board, s, l);
-			if (newBoard == null)
-				return;
-			//Resta de las letters
-			calculateStep(newBoard);
-			//Suma las letters
+			for (int i = 0 ; i < s.length() ; i++) {
+				if (s.charAt(i) == l.getValue()) { 
+					Board newBoard = locateWord(board, s, l, i);
+					if (newBoard == null)
+						return;
+					//Resta de las letters
+					calculateStep(newBoard);
+					//Suma las letters
+				}
+			}
 		}
 	}
 	

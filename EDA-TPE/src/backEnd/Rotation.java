@@ -3,7 +3,8 @@ package backEnd;
 public enum Rotation {
 	
 	HORIZONTAL(1,0),
-	VERTICAL(0,1);
+	VERTICAL(0,1),
+	NONE(0,0);
 	
 	private int x, y;
 	

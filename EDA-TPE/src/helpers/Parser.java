@@ -5,9 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Parser {
 	
@@ -42,7 +40,6 @@ public class Parser {
 		
 		File inputFile = new File(file);
 		BufferedReader inputLetters;
-		Map<Character, Integer> mapReturn = new HashMap<Character, Integer>();
 		
 		try {
 			inputLetters = new BufferedReader(new FileReader(inputFile));
