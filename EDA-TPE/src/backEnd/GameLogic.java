@@ -9,6 +9,7 @@ public class GameLogic {
 	private Dictionary dictionary;
 	private HandLetters letters;
 	private Deque<Step> stepStack = new LinkedList<Step> ();
+	private boolean foundSolution = false;
 	
 	public GameLogic(Dictionary dictionary, HandLetters letters) {
 		this.dictionary = dictionary;
@@ -23,7 +24,8 @@ public class GameLogic {
 	public void calculateStep(Board board) {
 		if (letters.isEmpty()){
 			board.print();
-			System.exit(0);
+			foundSolution = true;
+			return;
 		}
 		List<String> wordsList;
 		List<Letter> charList = board.getAvailableLetters();
@@ -35,6 +37,8 @@ public class GameLogic {
 			}
 			//Hasta aca
 			locateAllWords(wordsList, board);
+			if (foundSolution)
+				return;
 		}
 		else {
 			boolean isFinal = true;
@@ -45,6 +49,8 @@ public class GameLogic {
 				if (!wordsList.isEmpty()){
 					isFinal = false;
 					locateAllWordsIn(wordsList, l, board);
+					if (foundSolution)
+						return;
 				}
 			}
 			if (isFinal)
@@ -57,6 +63,8 @@ public class GameLogic {
 			for (int i = 0 ; i < s.length() ; i++) {
 				Letter l = new Letter(s.charAt(i), 7, 7, Rotation.HORIZONTAL);
 				takeStep(s, l, board, i, true);
+				if (foundSolution)
+					return;
 			}
 			
 		}
@@ -67,6 +75,8 @@ public class GameLogic {
 			for (int i = 0 ; i < s.length() ; i++) {
 				if (s.charAt(i) == l.getValue()) { 
 					takeStep(s, l, board, i, false);
+					if (foundSolution)
+						return;
 				}
 			}
 		}
@@ -78,6 +88,8 @@ public class GameLogic {
 			return;
 		stepStack.push(new Step(letter.getValue(), word, letters, firstStep));
 		calculateStep(newBoard);
+		if (foundSolution)
+			return;
 		stepStack.pop().refreshLetters(letters);
 	}
 	
