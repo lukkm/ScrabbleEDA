@@ -26,7 +26,7 @@ public class GameLogic {
 	}
 	
 	public void calculateStep(Board board) {
-		count++;
+		count+=100;
 		if (letters.isEmpty()){
 			board.print();
 			foundSolution = true;
