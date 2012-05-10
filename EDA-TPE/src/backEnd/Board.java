@@ -8,11 +8,10 @@ import java.util.Set;
 public class Board {
 
 	private Letter[][] board = new Letter[15][15];
-	private Set<Letter> lettersList = new HashSet<Letter>(); 
+	private Set<Letter> lettersList = new HashSet<Letter>();
+	private static final int[][] primes = new Primes().getPrimes(); 
 	
-	public Board() {
-		
-	}
+	public Board() {}
 	
 	public Board(Board board) {
 		for (Letter l : board.getLettersList()){
@@ -89,5 +88,29 @@ public class Board {
 		}
 		System.out.println();
 	}
-	
+
+	public int hashCode() {
+		
+		int result = 0;
+		for (Letter l : lettersList) {
+			result += l.hashCode() * primes[l.getX()][l.getY()];
+		}
+		return result;
+	}
+
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Board other = (Board) obj;
+		if (lettersList == null) {
+			if (other.lettersList != null)
+				return false;
+		} else if (!lettersList.equals(other.lettersList))
+			return false;
+		return true;
+	}
 }

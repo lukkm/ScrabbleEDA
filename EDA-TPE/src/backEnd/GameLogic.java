@@ -1,14 +1,17 @@
 package backEnd;
 
 import java.util.Deque;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 public class GameLogic {
 
 	private Dictionary dictionary;
 	private HandLetters letters;
 	private Deque<Step> stepStack = new LinkedList<Step> ();
+	private Set<Board> previousBoards = new HashSet<Board> ();
 	private boolean foundSolution = false;
 	private int count = 0;
 	
@@ -89,6 +92,10 @@ public class GameLogic {
 		Board newBoard = locateWord(board, word, letter, charPosition);
 		if (newBoard == null)
 			return;
+		// la magia esta aca
+		if (!previousBoards.add(newBoard))
+			return;
+		// y termina aca, dos lineas...toma
 		stepStack.push(new Step(letter.getValue(), word, letters, firstStep));
 		calculateStep(newBoard);
 		if (foundSolution)
