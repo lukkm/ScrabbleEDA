@@ -34,6 +34,8 @@ public class Dictionary {
 		if (!it.hasNext())
 			return false;
 		char firstChar = it.next();
+		if (trees[firstChar - 'A'] == null)
+			return false;
 		return trees[firstChar - 'A'].containsWord(it);
 	}
 	
