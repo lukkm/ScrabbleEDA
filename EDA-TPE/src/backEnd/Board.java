@@ -8,7 +8,7 @@ import java.util.Set;
 public class Board {
 
 	private Letter[][] board = new Letter[15][15];
-	private Set<Letter> lettersList = new HashSet<Letter>();
+	private List<Letter> lettersList = new ArrayList<Letter>(80);
 	private static final int[][] primes = new Primes().getPrimes(); 
 	
 	public Board() {}
@@ -21,7 +21,7 @@ public class Board {
 		}
 	}
 	
-	public Set<Letter> getLettersList(){
+	public List<Letter> getLettersList(){
 		return lettersList;
 	}
 	
