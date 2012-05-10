@@ -29,5 +29,20 @@ public class Letter {
 	public char getValue(){
 		return value;
 	}
+	
+	@Override
+	public boolean equals(Object arg0) {
+		if (this == arg0)
+			return true;
+		if (this.getClass() != arg0.getClass())
+			return false;
+		Letter l = (Letter)arg0;
+		return (l.getValue() == this.value && l.getX() == this.x && l.getY() == this.y);
+	}
+	
+	@Override
+	public int hashCode() {
+		return (x * 2 + y * 3 + value.hashCode() * 5);
+	}
 
 }

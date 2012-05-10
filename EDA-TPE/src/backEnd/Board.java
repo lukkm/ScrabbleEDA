@@ -1,22 +1,29 @@
 package backEnd;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Board {
 
 	private Letter[][] board = new Letter[15][15];
+	private Set<Letter> lettersList = new HashSet<Letter>(); 
 	
 	public Board() {
 		
 	}
 	
 	public Board(Board board) {
-		for (int i = 0; i < 15; i++){
-			for(int j = 0; j < 15; j++){
-				this.board[i][j] = board.getPosition(i, j);
-			}
+		for (Letter l : board.getLettersList()){
+			Letter addLetter =  new Letter(l.getValue(), l.getX(), l.getY(), l.getRotation());
+			this.board[l.getX()][l.getY()] = addLetter;
+			lettersList.add(addLetter);
 		}
+	}
+	
+	public Set<Letter> getLettersList(){
+		return lettersList;
 	}
 	
 	public boolean addWord(String word, Letter locatedLetter, int charPosition){
@@ -41,20 +48,25 @@ public class Board {
 		for (int i = 0; i < length; i++){
 			int posX = startX + i * rot.getX();
 			int posY = startY + i * rot.getY();
-			board[posX][posY] = new Letter(word.charAt(i), posX, posY, board[posX][posY] == null ? rot.change() : Rotation.NONE); 
+			Letter l;
+			if (board[posX][posY] == null){
+				l = new Letter(word.charAt(i), posX, posY, rot.change());
+			}else{
+				l = new Letter(word.charAt(i), posX, posY, Rotation.NONE);
+				lettersList.remove(l);
+			}
+			lettersList.add(l);
+			board[posX][posY] = l; 
 		}
 		return true;
 	}
 	
 	public List<Letter> getAvailableLetters() {
-		List<Letter> lettersList = new ArrayList<Letter> ();
-		for (Letter[] lY : board)
-			for (Letter lX : lY) {
-				if (lX != null)
-					if (lX.getRotation() != Rotation.NONE)
-						lettersList.add(lX);
-			}
-		return lettersList;
+		List<Letter> returnList = new ArrayList<Letter> ();
+		for (Letter l : lettersList)
+			if(l.getRotation() != Rotation.NONE)
+				returnList.add(l);
+		return returnList;
 	}
 	
 	public void setPosition(int x, int y, Letter c){
