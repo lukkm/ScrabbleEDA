@@ -74,8 +74,8 @@ public class Board {
 				( lowerX < 0 || lowerY < 0 || board[lowerX][lowerY] == null))
 			return true;
 		String word = c.toString();
-		word = getUpperString(x, y, rot, word);
-		word = getLowerString(x, y, rot, word);
+		word = getUpperString(x + rot.getX(), y + rot.getY(), rot, word);
+		word = getLowerString(x - rot.getX(), y - rot.getY(), rot, word);
 		return dictionary.containsWord(word);
 	}
 	
