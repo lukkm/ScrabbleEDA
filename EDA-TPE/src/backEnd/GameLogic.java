@@ -21,6 +21,10 @@ public class GameLogic {
 	}
 	
 	public void calculateStep(Board board) {
+		if (letters.isEmpty()){
+			board.print();
+			System.exit(0);
+		}
 		List<String> wordsList;
 		List<Letter> charList = board.getAvailableLetters();
 		if (charList.isEmpty()) {
@@ -34,11 +38,14 @@ public class GameLogic {
 		}
 		else {
 			boolean isFinal = true;
-			for (Letter l : board.getAvailableLetters()) {
+			for (Letter l : charList) {
+				letters.putLetter(l.getValue());
 				wordsList = dictionary.filterWordsWith(letters.getLetters(), l.getValue());
-				if (!wordsList.isEmpty())
+				letters.takeLetter(l.getValue());
+				if (!wordsList.isEmpty()){
 					isFinal = false;
 					locateAllWordsIn(wordsList, l, board);
+				}
 			}
 			if (isFinal)
 				board.print();
@@ -69,9 +76,9 @@ public class GameLogic {
 		Board newBoard = locateWord(board, word, letter, charPosition);
 		if (newBoard == null)
 			return;
-		stepStack.push(new Step(letter.getValue(), word, letters.getLetters(), firstStep));
+		stepStack.push(new Step(letter.getValue(), word, letters, firstStep));
 		calculateStep(newBoard);
-		stepStack.pop().refreshLetters(letters.getLetters());
+		stepStack.pop().refreshLetters(letters);
 	}
 	
 	private Board locateWord(Board board, String word, Letter l, int letterPosition) {
