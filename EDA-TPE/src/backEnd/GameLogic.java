@@ -21,7 +21,7 @@ public class GameLogic {
 	}
 	
 	public void startGame(){
-		Board board = new Board();
+		Board board = new Board(dictionary);
 		calculateStep(board);
 	}
 	
@@ -105,7 +105,7 @@ public class GameLogic {
 	
 	private Board locateWord(Board board, String word, Letter l, int letterPosition) {
 		
-		Board newBoard = new Board(board);
+		Board newBoard = new Board(board, dictionary);
 		if (newBoard.addWord(word, l, letterPosition))
 			return newBoard;
 		return null;

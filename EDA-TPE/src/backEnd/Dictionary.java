@@ -29,6 +29,14 @@ public class Dictionary {
 		System.out.println(charAppearences);
 	}
 	
+	public boolean containsWord(String s){
+		StringIterator it = new StringIterator(s);
+		if (!it.hasNext())
+			return false;
+		char firstChar = it.next();
+		return trees[firstChar - 'A'].containsWord(it);
+	}
+	
 	public List<String> getAppearencesWith(Character value) {
 		List<String> newList = new ArrayList<String> ();
 		for (Node n: charAppearences.get(value)) {
@@ -117,6 +125,18 @@ public class Dictionary {
 					return false;
 			}
 			return true;
+		}
+		
+		public boolean containsWord(StringIterator it){
+			if (!it.hasNext()){
+				if (end)
+					return true;
+				return false;
+			}
+			char aux = it.next();
+			if (sons[aux - 'A'] == null)
+				return false;
+			return sons[aux - 'A'].containsWord(it);
 		}
 		
 		public void addWord(StringIterator it){
