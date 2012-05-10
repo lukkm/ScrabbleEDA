@@ -14,6 +14,10 @@ public class Letter {
 		this.rot = rot;
 	}
 	
+	public void setRotation(Rotation rot){
+		this.rot = rot;
+	}
+	
 	public int getX() {
 		return this.x;
 	}

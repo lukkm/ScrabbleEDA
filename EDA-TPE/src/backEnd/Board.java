@@ -51,13 +51,11 @@ public class Board {
 			Letter l;
 			if (board[posX][posY] == null){
 				l = new Letter(word.charAt(i), posX, posY, rot.change());
+				lettersList.add(l);
+				board[posX][posY] = l;
 			}else{
-				l = new Letter(word.charAt(i), posX, posY, Rotation.NONE);
-				// esto esta como el orto, deberia sacar la letra de la lista asi despues la agrega con la rotacion en none, pero esta re feo hecho..
-				lettersList.remove(new Letter(word.charAt(i), posX, posY, board[posX][posY].getRotation()));
+				board[posX][posY].setRotation(Rotation.NONE);
 			}
-			lettersList.add(l);
-			board[posX][posY] = l; 
 		}
 		return true;
 	}
