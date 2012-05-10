@@ -23,6 +23,7 @@ public class GameLogic {
 	public void startGame(){
 		Board board = new Board(dictionary);
 		calculateStep(board);
+		System.out.println(count);
 	}
 	
 	public void calculateStep(Board board) {

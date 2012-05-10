@@ -37,10 +37,8 @@ public class Primes {
             }
 
             if (isPrimeNumber) {
-            	if (i > 2000){
-            		primes[primeNumberCounter % 15][primeNumberCounter / 15] = i;
-            		++primeNumberCounter;
-            	}
+        		primes[primeNumberCounter % 15][primeNumberCounter / 15] = i;
+        		++primeNumberCounter;
             }
         }
         return primes;

@@ -1,13 +1,14 @@
 package backEnd;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Board {
 
 	private Letter[][] board = new Letter[15][15];
-	private List<Letter> lettersList = new LinkedList<Letter>();
+	private Set<Letter> lettersList = new HashSet<Letter>();
 	private static final int[][] primes = new Primes().getPrimes(); 
 	private Dictionary dictionary;
 	
@@ -24,7 +25,7 @@ public class Board {
 		}
 	}
 	
-	public List<Letter> getLettersList(){
+	public Set<Letter> getLettersList(){
 		return lettersList;
 	}
 	
