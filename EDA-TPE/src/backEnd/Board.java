@@ -53,7 +53,7 @@ public class Board {
 				l = new Letter(word.charAt(i), posX, posY, rot.change());
 			}else{
 				l = new Letter(word.charAt(i), posX, posY, Rotation.NONE);
-				lettersList.remove(l);
+				lettersList.remove(new Letter(word.charAt(i), posX, posY, board[posX][posY].getRotation()));
 			}
 			lettersList.add(l);
 			board[posX][posY] = l; 

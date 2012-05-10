@@ -18,7 +18,7 @@ public class Step {
 			if (lettersUsed.containsKey(c))
 				aux = lettersUsed.get(c);
 			lettersUsed.put(c, aux + 1);
-		}
+		}	
 		if (!firstStep)
 			letters.putLetter(boardLetterUsed);
 	}

@@ -30,19 +30,36 @@ public class Letter {
 		return value;
 	}
 	
-	@Override
-	public boolean equals(Object arg0) {
-		if (this == arg0)
-			return true;
-		if (this.getClass() != arg0.getClass())
-			return false;
-		Letter l = (Letter)arg0;
-		return (l.getValue() == this.value && l.getX() == this.x && l.getY() == this.y);
-	}
-	
-	@Override
 	public int hashCode() {
-		return (x * 2 + y * 3 + value.hashCode() * 5);
+		final int prime = 277;
+		int result = 1;
+		result = prime * result + ((rot == null) ? 0 : rot.hashCode());
+		result = prime * result + ((value == null) ? 0 : value.hashCode());
+		result = prime * result + x;
+		result = prime * result + y;
+		return result;
+	}
+
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Letter other = (Letter) obj;
+		if (rot != other.rot)
+			return false;
+		if (value == null) {
+			if (other.value != null)
+				return false;
+		} else if (!value.equals(other.value))
+			return false;
+		if (x != other.x)
+			return false;
+		if (y != other.y)
+			return false;
+		return true;
 	}
 
 }

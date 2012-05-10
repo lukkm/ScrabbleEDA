@@ -26,4 +26,5 @@ public enum Rotation {
 			return Rotation.VERTICAL;
 		return Rotation.HORIZONTAL;
 	}
+	
 }
