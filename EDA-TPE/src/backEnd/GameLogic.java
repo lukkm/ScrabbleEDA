@@ -10,6 +10,7 @@ public class GameLogic {
 	private HandLetters letters;
 	private Deque<Step> stepStack = new LinkedList<Step> ();
 	private boolean foundSolution = false;
+	private int count = 0;
 	
 	public GameLogic(Dictionary dictionary, HandLetters letters) {
 		this.dictionary = dictionary;
@@ -22,9 +23,11 @@ public class GameLogic {
 	}
 	
 	public void calculateStep(Board board) {
+		count++;
 		if (letters.isEmpty()){
 			board.print();
 			foundSolution = true;
+			System.out.println(count);
 			return;
 		}
 		List<String> wordsList;
