@@ -28,12 +28,14 @@ public class GameLogic {
 		this.bestSolution = board;
 		calculateStep(board);
 		bestSolution.print();
+		System.out.println(count);
 	}
 	
 	public void calculateStep(Board board) {
 		count++;
 		if (letters.isEmpty()){
 //			board.print();
+			this.bestSolution = board;
 			foundSolution = true;
 			System.out.println(count);
 			return;
@@ -65,10 +67,7 @@ public class GameLogic {
 				}
 			}
 			if (isFinal) {
-				if (this.bestSolution.getBoardScore() < board.getBoardScore())
-					this.bestSolution = board;
-//				board.print();
-
+				isSolution(board);
 			}
 		}
 	}
@@ -99,12 +98,12 @@ public class GameLogic {
 	
 	private void takeStep(String word, Letter letter, Board board, int charPosition, boolean firstStep) {
 		Board newBoard = locateWord(board, word, letter, charPosition);
+		// la magia se movio un par de lineas para arriba
+		if (!previousBoards.add(newBoard))
+			return;
+		// y termina aca, dos lineas...toma
 		if (newBoard == null)
 			return;
-		// la magia esta aca
-//		if (!previousBoards.add(newBoard))
-//			return;
-		// y termina aca, dos lineas...toma
 		stepStack.push(new Step(letter.getValue(), word, letters, firstStep));
 		calculateStep(newBoard);
 		if (foundSolution)
@@ -117,6 +116,13 @@ public class GameLogic {
 		Board newBoard = new Board(board, dictionary);
 		if (newBoard.addWord(word, l, letterPosition))
 			return newBoard;
+		isSolution(board);
 		return null;
+	}
+	
+	private void isSolution(Board board) {
+		if (this.bestSolution.getBoardScore() < board.getBoardScore())
+			this.bestSolution = board;
+//		board.print();
 	}
 }

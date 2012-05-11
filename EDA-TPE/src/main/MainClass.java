@@ -29,7 +29,7 @@ public class MainClass {
 		
 		game.startGame();
 		
-		System.out.println(System.currentTimeMillis() - a);
+		System.out.println("TIEMPO: " + (System.currentTimeMillis() - a));
 		
 //		dictionary.printAll();
 //		dictionary.printAppearences();
