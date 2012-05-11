@@ -37,9 +37,8 @@ public class Letter {
 	public int hashCode() {
 		final int[] primes = {277, 1033};
 		int result = 1;
-		result = primes[0] * result + ((value == null) ? 0 : value.hashCode());
-		result = primes[1] * result + x;
-		result = primes[1] * result + y;
+		result = primes[0] * result * ((value == null) ? 1 : value.hashCode());
+		result = primes[1] * result * (x+y);
 		return result;
 	}
 
