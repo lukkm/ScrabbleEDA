@@ -82,13 +82,17 @@ public class Dictionary {
 		}		
 	}
 	
-	
 	public List<String> filterWordsWith(int[] letters, char c){
+		
+		return filterWordsWith(letters, c, -1);
+	}
+	
+	public List<String> filterWordsWith(int[] letters, char c, int maxLength){
 		
 		List<String> lstAns = new ArrayList<String>();
 		
 		for(Node n : charAppearences.get(c)){
-			if (n.validateNode(letters))
+			if ((maxLength == -1 || n.word.value.length() <= maxLength) && n.validateNode(letters))
 				n.getFilterWords(letters, lstAns);
 		}
 		
@@ -108,8 +112,6 @@ public class Dictionary {
 		return lstAns;
 		
 	}
-	
-	
 	
 	private class Node {
 

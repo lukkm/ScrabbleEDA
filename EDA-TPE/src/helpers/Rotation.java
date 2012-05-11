@@ -2,8 +2,8 @@ package helpers;
 
 public enum Rotation {
 	
-	HORIZONTAL(1,0),
-	VERTICAL(0,1),
+	HORIZONTAL(0,1),
+	VERTICAL(1,0),
 	NONE(0,0);
 	
 	private int x, y;

@@ -57,7 +57,8 @@ public class GameLogic {
 			boolean isFinal = true;
 			for (Letter l : charList) {
 				letters.putLetter(l.getValue());
-				wordsList = dictionary.filterWordsWith(letters.getLetters(), l.getValue());
+				int maxLength = Math.max(l.getX() * l.getRotation().getX(), l.getY() * l.getRotation().getY());
+				wordsList = dictionary.filterWordsWith(letters.getLetters(), l.getValue(), maxLength);
 				letters.takeLetter(l.getValue());
 				if (!wordsList.isEmpty()){
 					isFinal = false;
@@ -123,6 +124,6 @@ public class GameLogic {
 	private void isSolution(Board board) {
 		if (this.bestSolution.getBoardScore() < board.getBoardScore())
 			this.bestSolution = board;
-//		board.print();
+		board.print();
 	}
 }
