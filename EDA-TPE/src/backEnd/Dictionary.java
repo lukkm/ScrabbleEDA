@@ -184,12 +184,12 @@ public class Dictionary {
 		
 		public void getFilterWords(int[] letters, List<String> lst){
 			if (word.getAppearencesOf(value) <= letters[value - 'A']){
-				if (end)
-					lst.add(word.getWord());
 				for(Node n : sons)
 					if (n != null)
 						n.getFilterWords(letters, lst);
 			}
+			if (end)
+				lst.add(word.getWord());
 		}
 		
 		public void getWords(List<String> list) {
