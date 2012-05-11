@@ -1,5 +1,7 @@
 package backEnd;
 
+import helpers.Rotation;
+
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -13,6 +15,7 @@ public class GameLogic {
 	private Deque<Step> stepStack = new LinkedList<Step> ();
 	private Set<Board> previousBoards = new HashSet<Board> ();
 	private boolean foundSolution = false;
+	private Board bestSolution;
 	private int count = 0;
 	
 	public GameLogic(Dictionary dictionary, HandLetters letters) {
@@ -22,6 +25,7 @@ public class GameLogic {
 	
 	public void startGame(){
 		Board board = new Board(dictionary);
+		this.bestSolution = board;
 		calculateStep(board);
 		System.out.println(count);
 	}
@@ -97,6 +101,8 @@ public class GameLogic {
 		if (!previousBoards.add(newBoard))
 			return;
 		// y termina aca, dos lineas...toma
+		if (this.bestSolution.getBoardScore() < newBoard.getBoardScore())
+			this.bestSolution = newBoard;
 		stepStack.push(new Step(letter.getValue(), word, letters, firstStep));
 		calculateStep(newBoard);
 		if (foundSolution)

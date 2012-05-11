@@ -29,6 +29,10 @@ public class Dictionary {
 		System.out.println(charAppearences);
 	}
 	
+	public int getScore(Letter l) {
+		return scores.getScore(l.getValue());
+	}
+	
 	public boolean containsWord(String s){
 		StringIterator it = new StringIterator(s);
 		if (!it.hasNext())
@@ -61,7 +65,7 @@ public class Dictionary {
 		int offSet = firstChar - 'A';
 		
 		if (trees[offSet] == null)
-			trees[offSet] = new Node(firstChar, "", 0);
+			trees[offSet] = new Node(firstChar, "");
 		trees[offSet].addWord(it);
 	}
 
@@ -113,12 +117,10 @@ public class Dictionary {
 		Node[] sons = new Node[26];
 		boolean end = false;
 		Word word;
-		int score;
 		
-		public Node(Character value, String previousWord, int previousScore) {
+		public Node(Character value, String previousWord) {
 			this.value = value;
 			this.word = new Word(previousWord + value);
-			this.score = previousScore + scores.getScores()[value - 'A'];
 		}
 		
 		public boolean validateNode(int[] letters){
@@ -153,14 +155,14 @@ public class Dictionary {
 		public Node getSon(Character value) {
 			int offSet = value - 'A';
 			if (sons[offSet] == null){
-				sons[offSet] = new Node(value, word.getWord(), score);
+				sons[offSet] = new Node(value, word.getWord());
 			}
 			return sons[offSet];
 		}
 		
 		public void printWords(){
 			if (end)
-				System.out.println(word + " " + score);
+				System.out.println(word + " ");
 			for (Node n : sons)
 				if (n != null)
 					n.printWords();

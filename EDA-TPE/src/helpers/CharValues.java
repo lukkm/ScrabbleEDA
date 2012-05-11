@@ -10,4 +10,8 @@ public class CharValues {
 		return scores;
 	}
 	
+	public int getScore(char c) {
+		return scores[c - 'A'];
+	}
+	
 }

@@ -1,5 +1,8 @@
 package backEnd;
 
+import helpers.Primes;
+import helpers.Rotation;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -11,6 +14,7 @@ public class Board {
 	private Set<Letter> lettersList = new HashSet<Letter>();
 	private static final int[][] primes = new Primes().getPrimes(); 
 	private Dictionary dictionary;
+	private int boardScore;
 	
 	public Board(Dictionary dict) {
 		this.dictionary = dict;
@@ -60,6 +64,7 @@ public class Board {
 			}else{
 				board[posX][posY].setRotation(Rotation.NONE);
 			}
+			boardScore += dictionary.getScore(board[posX][posY]);
 		}
 		return true;
 	}
@@ -112,6 +117,10 @@ public class Board {
 		return board[x][y];
 	}
 	
+	public int getBoardScore() {
+		return this.boardScore;
+	}
+	
 	public void print() {
 		System.out.println();
 		for (Letter[] lY : board) {
@@ -123,7 +132,7 @@ public class Board {
 			}
 			System.out.println();
 		}
-		System.out.println();
+		System.out.println(this.boardScore);
 	}
 
 	public int hashCode() {
