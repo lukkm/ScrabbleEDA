@@ -27,6 +27,7 @@ public class Board {
 			this.board[l.getX()][l.getY()] = addLetter;
 			lettersList.add(addLetter);
 		}
+		this.boardScore = board.boardScore;
 	}
 	
 	public Set<Letter> getLettersList(){
@@ -61,10 +62,10 @@ public class Board {
 				l = new Letter(word.charAt(i), posX, posY, rot.change());
 				lettersList.add(l);
 				board[posX][posY] = l;
+				boardScore += dictionary.getScore(l);
 			}else{
 				board[posX][posY].setRotation(Rotation.NONE);
 			}
-			boardScore += dictionary.getScore(board[posX][posY]);
 		}
 		return true;
 	}

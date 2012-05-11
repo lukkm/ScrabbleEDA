@@ -27,13 +27,13 @@ public class GameLogic {
 		Board board = new Board(dictionary);
 		this.bestSolution = board;
 		calculateStep(board);
-		System.out.println(count);
+		bestSolution.print();
 	}
 	
 	public void calculateStep(Board board) {
 		count++;
 		if (letters.isEmpty()){
-			board.print();
+//			board.print();
 			foundSolution = true;
 			System.out.println(count);
 			return;
@@ -64,8 +64,12 @@ public class GameLogic {
 						return;
 				}
 			}
-			if (isFinal)
-				board.print();
+			if (isFinal) {
+				if (this.bestSolution.getBoardScore() < board.getBoardScore())
+					this.bestSolution = board;
+//				board.print();
+
+			}
 		}
 	}
 	
@@ -98,11 +102,9 @@ public class GameLogic {
 		if (newBoard == null)
 			return;
 		// la magia esta aca
-		if (!previousBoards.add(newBoard))
-			return;
+//		if (!previousBoards.add(newBoard))
+//			return;
 		// y termina aca, dos lineas...toma
-		if (this.bestSolution.getBoardScore() < newBoard.getBoardScore())
-			this.bestSolution = newBoard;
 		stepStack.push(new Step(letter.getValue(), word, letters, firstStep));
 		calculateStep(newBoard);
 		if (foundSolution)

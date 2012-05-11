@@ -1,4 +1,5 @@
 package backEnd;
+import helpers.Rotation;
 
 public class Letter {
 
@@ -7,11 +8,11 @@ public class Letter {
 	private int y = -1;
 	private Rotation rot;
 	
-	public Letter(Character value, int x, int y, Rotation rot) {
+	public Letter(Character value, int x, int y, Rotation rotation) {
 		this.value = value;
 		this.x = x;
 		this.y = y;
-		this.rot = rot;
+		this.rot = rotation;
 	}
 	
 	public void setRotation(Rotation rot){
