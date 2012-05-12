@@ -16,7 +16,7 @@ public class MainClass {
 		
 		CharValues scores = new CharValues();
 		
-		List<String> lst = Parser.parseWords("C:\\Pruebas\\wordfileE3.txt");
+		List<String> lst = Parser.parseWords("C:\\Pruebas\\wordfileE.txt");
 		HandLetters letters = new HandLetters(Parser.parseLetters("C:\\Pruebas\\lettersE.txt"));
 		
 		long a = System.currentTimeMillis();

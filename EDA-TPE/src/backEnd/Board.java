@@ -15,12 +15,13 @@ public class Board {
 	private static final int[][] primes = new Primes().getPrimes(); 
 	private Dictionary dictionary;
 	private int boardScore;
+	private List<Character> locatedLetters;
 	
 	public Board(Dictionary dict) {
 		this.dictionary = dict;
 	}
 	
-	public Board(Board board, Dictionary dict) {
+	public Board(Board board, Dictionary dict, List<Character> locatedLetters) {
 		this(dict);
 		for (Letter l : board.getLettersList()){
 			Letter addLetter =  new Letter(l.getValue(), l.getX(), l.getY(), l.getRotation());
@@ -28,6 +29,7 @@ public class Board {
 			lettersList.add(addLetter);
 		}
 		this.boardScore = board.boardScore;
+		this.locatedLetters = locatedLetters;
 	}
 	
 	public Set<Letter> getLettersList(){
@@ -65,6 +67,7 @@ public class Board {
 				boardScore += dictionary.getScore(l);
 			}else{
 				board[posX][posY].setRotation(Rotation.NONE);
+				this.locatedLetters.add(board[posX][posY].getValue());
 			}
 		}
 		return true;

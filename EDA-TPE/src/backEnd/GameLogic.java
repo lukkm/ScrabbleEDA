@@ -34,7 +34,7 @@ public class GameLogic {
 	
 	public void calculateStep(Board board) {
 		count++;
-		board.print();
+//		board.print();
 		int i = 0;
 		for (int a : letters.getLetters()){
 			System.out.print(Character.valueOf((char) (i++ + 'A')).toString() + ": " + a + ", ");
@@ -105,23 +105,24 @@ public class GameLogic {
 	}
 	
 	private void takeStep(String word, Letter letter, Board board, int charPosition, boolean firstStep) {
-		Board newBoard = locateWord(board, word, letter, charPosition);
+		List<Character> locatedLetters = new ArrayList<Character>(7);
+		Board newBoard = locateWord(board, word, letter, charPosition, locatedLetters);
 		// la magia se movio un par de lineas para arriba
 		if (!previousBoards.add(newBoard))
 			return;
 		// y termina aca, dos lineas...toma
 		if (newBoard == null)
 			return;
-		stepStack.push(new Step(letter.getValue(), word, letters, firstStep));
+		stepStack.push(new Step(locatedLetters, word, letters, firstStep));
 		calculateStep(newBoard);
 		if (foundSolution)
 			return;
 		stepStack.pop().refreshLetters(letters);
 	}
 	
-	private Board locateWord(Board board, String word, Letter l, int letterPosition) {
+	private Board locateWord(Board board, String word, Letter l, int letterPosition, List<Character> locatedLetters) {
 		
-		Board newBoard = new Board(board, dictionary);
+		Board newBoard = new Board(board, dictionary, locatedLetters);
 		if (newBoard.addWord(word, l, letterPosition))
 			return newBoard;
 		isSolution(board);
