@@ -2,6 +2,7 @@ package backEnd;
 
 import helpers.Rotation;
 
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -28,11 +29,17 @@ public class GameLogic {
 		this.bestSolution = board;
 		calculateStep(board);
 		bestSolution.print();
-		System.out.println(count);
+		System.out.println("TABLEROS: " + count);
 	}
 	
 	public void calculateStep(Board board) {
 		count++;
+		board.print();
+		int i = 0;
+		for (int a : letters.getLetters()){
+			System.out.print(Character.valueOf((char) (i++ + 'A')).toString() + ": " + a + ", ");
+		}
+		System.out.println();
 		if (letters.isEmpty()){
 //			board.print();
 			this.bestSolution = board;
@@ -51,7 +58,7 @@ public class GameLogic {
 			//Hasta aca
 			locateAllWords(wordsList, board);
 			if (foundSolution)
-				return;
+			return;
 		}
 		else {
 			boolean isFinal = true;
@@ -124,6 +131,6 @@ public class GameLogic {
 	private void isSolution(Board board) {
 		if (this.bestSolution.getBoardScore() < board.getBoardScore())
 			this.bestSolution = board;
-//		board.print();
+	//	board.print();
 	}
 }

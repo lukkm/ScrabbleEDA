@@ -51,7 +51,7 @@ public class Board {
 			int posY = startY + i * rot.getY();
 			if (board[posX][posY] != null && board[posX][posY].getValue() != word.charAt(i))
 				return false;
-			if(!crossCheck(word.charAt(i), posX, posY, rot.change()))
+			if(!verticalCrossCheck(startX, startY, length, rot, word) || !crossCheck(word.charAt(i), posX, posY, rot.change()))
 					return false;
 		}
 		for (int i = 0; i < length; i++){
@@ -84,6 +84,26 @@ public class Board {
 		word = getUpperString(x + rot.getX(), y + rot.getY(), rot, word);
 		word = getLowerString(x - rot.getX(), y - rot.getY(), rot, word);
 		return dictionary.containsWord(word);
+	}
+	
+	private boolean verticalCrossCheck(int startX, int startY, int length, Rotation rot, String word){
+		int upperX = startX + length * rot.getX();
+		int lowerX = startX - rot.getX();
+		int upperY = startY + length * rot.getY();
+		int lowerY = startY - rot.getY();
+//		if (lowerX < 0 || lowerY < 0)
+//			if (board[upperX][upperY] == null)
+//				return true;
+//		if (upperX > 14 || upperY > 14)
+//			if (board[lowerX][lowerY] == null)
+//				return true;
+		if ((lowerX < 0 || lowerY < 0 || board[lowerX][lowerY] == null) && 
+				(upperX > 14 || upperY > 14 || board[upperX][upperY] == null))
+			return true;
+		String aux = word;
+		aux = getUpperString(upperX, upperY, rot, aux);
+		aux = getLowerString(lowerX, lowerY, rot, aux);
+		return dictionary.containsWord(aux);
 	}
 	
 	private String getUpperString(int x, int y, Rotation rot, String currentString){
@@ -133,7 +153,7 @@ public class Board {
 			}
 			System.out.println();
 		}
-		System.out.println(this.boardScore);
+		System.out.println("PUNTOS: " + this.boardScore);
 	}
 
 	public int hashCode() {

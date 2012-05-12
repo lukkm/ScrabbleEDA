@@ -31,8 +31,9 @@ public class Step {
 		for (Character c : lettersUsed.keySet()) {
 			letters.putLetter(c, lettersUsed.get(c));
 		}
-		if (!firstStep)
+		if (!firstStep){
 			letters.takeLetter(boardLetterUsed);
+		}
 	}
 	
 }
