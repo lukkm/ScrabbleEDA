@@ -14,7 +14,6 @@ public class GameLogic {
 	private Dictionary dictionary;
 	private HandLetters letters;
 	private Deque<Step> stepStack = new LinkedList<Step> ();
-//	private Set<Board> previousBoards = new HashSet<Board> ();
 	private Set<Set<Letter>> previousBoards = new HashSet<Set<Letter>> ();
 	private boolean foundSolution = false;
 	private Board bestSolution;
@@ -36,14 +35,11 @@ public class GameLogic {
 	}
 	
 	public void calculateStep(Board board) {
-		count++;
-		if (count % 1000 == 0)
-			System.out.println(count);
 		if (letters.isEmpty()){
 //			board.print();
 			this.bestSolution = board;
 //			foundSolution = true;
-			System.out.println(count);
+//			System.out.println(count);
 			return;
 		}
 		List<String> wordsList;
@@ -130,6 +126,9 @@ public class GameLogic {
 	}
 	
 	private void isSolution(Board board) {
+		count++;
+		if (count % 1000 == 0)
+			System.out.println(count);
 		if (this.bestSolution.getBoardScore() < board.getBoardScore()) {
 			stepStack = cloneStack(stepStack);
 			this.bestSolution = board;
