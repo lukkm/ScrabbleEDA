@@ -17,6 +17,10 @@ public class MainClass {
 
 	public static void main(String[] args){
 		
+		/*
+		 * luki sos un gato
+		 */
+		
 		CharValues scores = new CharValues();
 		Parser parser = new Parser();
 		List<String> list = parser.parseWords("C:\\Pruebas\\wordfileE.txt");
