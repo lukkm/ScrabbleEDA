@@ -1,8 +1,10 @@
 package main;
 
 
+import frontEnd.GameFrame;
 import helpers.CharValues;
 import helpers.Parser;
+import helpers.Rotation;
 
 import java.util.List;
 import java.util.Set;
@@ -20,13 +22,16 @@ public class MainClass {
 		Parser parser = new Parser();
 		List<String> list = parser.parseWords("C:\\Pruebas\\wordfileE.txt");
 		HandLetters letters = new HandLetters(parser.parseLetters("C:\\Pruebas\\lettersE.txt"));
+		GameFrame gameFrame = new GameFrame();
+		
+		gameFrame.setVisible(true);
 		
 		long a = System.currentTimeMillis();
 		
 		Dictionary dictionary = new Dictionary(scores);
 		dictionary.addWords(list);
 		
-		GameLogic game = new GameLogic(dictionary, letters);
+		GameLogic game = new GameLogic(dictionary, letters, gameFrame);
 		Set<Letter> out = game.startGame();
 		parser.printSolution(out);		
 			

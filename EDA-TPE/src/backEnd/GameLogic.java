@@ -1,5 +1,6 @@
 package backEnd;
 
+import frontEnd.GameFrame;
 import helpers.Rotation;
 
 import java.util.ArrayList;
@@ -13,53 +14,57 @@ public class GameLogic {
 
 	private Dictionary dictionary;
 	private HandLetters letters;
-	private Deque<Step> stepStack = new LinkedList<Step> ();
-	private Set<Set<Letter>> previousBoards = new HashSet<Set<Letter>> ();
+	private Deque<Step> stepStack = new LinkedList<Step>();
+	private Set<Set<Letter>> previousBoards = new HashSet<Set<Letter>>();
 	private boolean foundSolution = false;
 	private Board bestSolution;
-	
-	public GameLogic(Dictionary dictionary, HandLetters letters) {
+	private GameFrame visual;
+
+	public GameLogic(Dictionary dictionary, HandLetters letters,
+			GameFrame visual) {
 		this.dictionary = dictionary;
 		this.letters = letters;
+		this.visual = visual;
 	}
-	
-	public Set<Letter> startGame(){
+
+	public Set<Letter> startGame() {
 		Board board = new Board(dictionary);
 		this.bestSolution = board;
 		calculateStep(board);
 		bestSolution.print();
 		return bestSolution.getLettersList();
 	}
-	
+
 	public void calculateStep(Board board) {
-		if (letters.isEmpty()){
-//			board.print();
+		if (letters.isEmpty()) {
+			// board.print();
 			this.bestSolution = board;
-			foundSolution = true;
-//			System.out.println(count);
+//			foundSolution = true;
+			// System.out.println(count);
 			return;
 		}
 		List<String> wordsList;
 		List<Letter> charList = board.getAvailableLetters();
 		if (charList.isEmpty()) {
 			wordsList = dictionary.filterWords(letters.getLetters());
-			//Cambiarlo despues
-			if (wordsList.isEmpty()){
+			// Cambiarlo despues
+			if (wordsList.isEmpty()) {
 				return;
 			}
-			//Hasta aca
+			// Hasta aca
 			locateAllWords(wordsList, board);
 			if (foundSolution)
 				return;
-		}
-		else {
+		} else {
 			boolean isFinal = true;
 			for (Letter l : charList) {
 				letters.putLetter(l.getValue());
-				int maxLength = Math.max(l.getX() * l.getRotation().getX(), l.getY() * l.getRotation().getY()) + 1;
-				wordsList = dictionary.filterWordsWith(letters.getLetters(), l.getValue(), maxLength);
+				int maxLength = Math.max(l.getX() * l.getRotation().getX(),
+						l.getY() * l.getRotation().getY()) + 1;
+				wordsList = dictionary.filterWordsWith(letters.getLetters(),
+						l.getValue(), maxLength);
 				letters.takeLetter(l.getValue());
-				if (!wordsList.isEmpty()){
+				if (!wordsList.isEmpty()) {
 					isFinal = false;
 					locateAllWordsIn(wordsList, l, board);
 					if (foundSolution)
@@ -70,10 +75,10 @@ public class GameLogic {
 				isSolution(board);
 		}
 	}
-	
+
 	private void locateAllWords(List<String> wordsList, Board board) {
 		for (String s : wordsList) {
-			for (int i = 0 ; i < s.length() ; i++) {
+			for (int i = 0; i < s.length(); i++) {
 				Letter l = new Letter(s.charAt(i), 7, 7, Rotation.HORIZONTAL);
 				takeStep(s, l, board, i, true);
 				if (foundSolution)
@@ -81,11 +86,11 @@ public class GameLogic {
 			}
 		}
 	}
-	
-	private void locateAllWordsIn(List<String> wordsList, Letter l, Board board){
+
+	private void locateAllWordsIn(List<String> wordsList, Letter l, Board board) {
 		for (String s : wordsList) {
-			for (int i = 0 ; i < s.length() ; i++) {
-				if (s.charAt(i) == l.getValue()) { 
+			for (int i = 0; i < s.length(); i++) {
+				if (s.charAt(i) == l.getValue()) {
 					takeStep(s, l, board, i, false);
 					if (foundSolution)
 						return;
@@ -93,32 +98,44 @@ public class GameLogic {
 			}
 		}
 	}
-	
-	private void takeStep(String word, Letter letter, Board board, int charPosition, boolean firstStep) {
+
+	private void takeStep(String word, Letter letter, Board board,
+			int charPosition, boolean firstStep) {
 		List<Letter> locatedLetters = new ArrayList<Letter>(7);
-		Board newBoard = locateWord(board, word, letter, charPosition, locatedLetters);
+		Board newBoard = locateWord(board, word, letter, charPosition,
+				locatedLetters);
 		// la magia se movio un par de lineas para arriba
 		if (newBoard == null)
 			return;
+		if (visual != null){
+			try{
+				Thread.sleep(50);
+			}catch (Exception e){
+				return;
+			}
+			visual.printBoard(newBoard);
+		}
 		if (!previousBoards.add(newBoard.getLettersList())) {
 			return;
 		}
 		// y termina aca, dos lineas...toma
-		stepStack.push(new Step(locatedLetters, word, letters, firstStep, letter, charPosition));
+		stepStack.push(new Step(locatedLetters, word, letters, firstStep,
+				letter, charPosition));
 		calculateStep(newBoard);
 		if (foundSolution)
 			return;
 		stepStack.pop().refreshLetters(letters);
 	}
-	
-	private Board locateWord(Board board, String word, Letter l, int letterPosition, List<Letter> locatedLetters) {
+
+	private Board locateWord(Board board, String word, Letter l,
+			int letterPosition, List<Letter> locatedLetters) {
 		Board newBoard = new Board(board, dictionary, locatedLetters);
 		if (newBoard.addWord(word, l, letterPosition))
 			return newBoard;
 		isSolution(board);
 		return null;
 	}
-	
+
 	private void isSolution(Board board) {
 		if (this.bestSolution.getBoardScore() < board.getBoardScore())
 			this.bestSolution = board;
