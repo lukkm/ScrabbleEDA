@@ -17,7 +17,6 @@ public class GameLogic {
 	private Set<Set<Letter>> previousBoards = new HashSet<Set<Letter>> ();
 	private boolean foundSolution = false;
 	private Board bestSolution;
-	private Deque<Step> bestStack = new LinkedList<Step> ();
 	private int count = 0;
 	
 	public GameLogic(Dictionary dictionary, HandLetters letters) {
@@ -29,7 +28,6 @@ public class GameLogic {
 		Board board = new Board(dictionary);
 		this.bestSolution = board;
 		calculateStep(board);
-		printSteps();
 		bestSolution.print();
 		System.out.println("TABLEROS: " + count);
 	}
@@ -38,7 +36,7 @@ public class GameLogic {
 		if (letters.isEmpty()){
 //			board.print();
 			this.bestSolution = board;
-//			foundSolution = true;
+			foundSolution = true;
 //			System.out.println(count);
 			return;
 		}
@@ -69,9 +67,8 @@ public class GameLogic {
 						return;
 				}
 			}
-			if (isFinal) {
+			if (isFinal)
 				isSolution(board);
-			}
 		}
 	}
 	
@@ -83,7 +80,6 @@ public class GameLogic {
 				if (foundSolution)
 					return;
 			}
-			
 		}
 	}
 	
@@ -117,7 +113,6 @@ public class GameLogic {
 	}
 	
 	private Board locateWord(Board board, String word, Letter l, int letterPosition, List<Letter> locatedLetters) {
-		
 		Board newBoard = new Board(board, dictionary, locatedLetters);
 		if (newBoard.addWord(word, l, letterPosition))
 			return newBoard;
@@ -126,35 +121,7 @@ public class GameLogic {
 	}
 	
 	private void isSolution(Board board) {
-		count++;
-		if (count % 1000 == 0)
-			System.out.println(count);
-		if (this.bestSolution.getBoardScore() < board.getBoardScore()) {
-			stepStack = cloneStack(stepStack);
+		if (this.bestSolution.getBoardScore() < board.getBoardScore())
 			this.bestSolution = board;
-		}
-	}
-	
-	private Deque<Step> cloneStack(Deque<Step> stack) {
-		Deque<Step> auxStack1 = new LinkedList<Step>();
-		Deque<Step> auxStack2 = new LinkedList<Step>();
-		while (!stack.isEmpty()) {
-			Step elem = stack.pop();
-			auxStack1.addFirst(elem);
-			auxStack2.addFirst(elem);
-		}
-		this.bestStack = auxStack2;
-		return auxStack1;
-	}
-	
-	private void printSteps() {
-		Board auxBoard = new Board(this.dictionary);
-		while (!bestStack.isEmpty()) {
-			Step aux = bestStack.pop();
-			System.out.println(aux.getWord());
-//			auxBoard = locateWord(auxBoard, aux.getWord(), 
-//					aux.getBoardLetterUsed(), aux.getCharPosition(), aux.getLocatedLetters());
-//			auxBoard.print();
-		}
 	}
 }
