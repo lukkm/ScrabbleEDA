@@ -1,15 +1,21 @@
 package helpers;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
+import backEnd.Letter;
 
 public class Parser {
 	
-	public static List<String> parseWords(String file){
+	public List<String> parseWords(String file){
 		
 		File inputFile = new File(file);
 		BufferedReader inputWords;
@@ -36,7 +42,7 @@ public class Parser {
 		
 	}
 	
-	public static String parseLetters(String file){
+	public String parseLetters(String file){
 		
 		File inputFile = new File(file);
 		BufferedReader inputLetters;
@@ -62,4 +68,30 @@ public class Parser {
 		return "";
 	}
 
+	public void printSolution(Set<Letter> out) {
+		Writer writer;
+		try {
+			writer = new FileWriter("C:\\Pruebas\\Salida\\Solution.txt");
+			BufferedWriter buffered = new BufferedWriter(writer);
+			char[][] line = new char[15][30]; 
+			for (int i = 0 ; i < 15 ; i++) {
+				for (int j = 0; j < 30 ; j+=2) {
+					line[i][j] = '-';
+					line[i][j+1] = ' ';
+				}
+			}
+			for (Letter l : out) {
+				line[l.getX()][l.getY()*2] = l.getValue();
+			}
+			for (char[] c : line) {
+				buffered.write(c);
+				buffered.newLine();
+			}
+			buffered.flush();
+		} catch (IOException e) {
+			System.out.println("Carpeta no encontrada");
+			e.printStackTrace();
+		}
+	}
+	
 }
