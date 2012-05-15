@@ -5,10 +5,10 @@ import java.awt.BorderLayout;
 import javax.swing.JFrame;
 
 import backEnd.Board;
-import backEnd.Letter;
 
 public class GameFrame extends JFrame {
 	
+	private static final long serialVersionUID = 1L;
 	private BoardPanel panel;
 	
 	public GameFrame(){

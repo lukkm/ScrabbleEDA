@@ -12,6 +12,7 @@ import backEnd.Letter;
 
 public class BoardPanel extends JPanel{
 
+	private static final long serialVersionUID = 1L;
 	private final int cellSize = 30;
 	private final int spanLeft = 12, spanBot = 10;
 	private final int rows = 15, columns = 15;

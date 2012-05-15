@@ -4,7 +4,6 @@ package main;
 import frontEnd.GameFrame;
 import helpers.CharValues;
 import helpers.Parser;
-import helpers.Rotation;
 
 import java.util.List;
 import java.util.Set;
