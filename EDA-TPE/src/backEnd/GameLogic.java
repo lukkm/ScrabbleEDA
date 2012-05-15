@@ -14,9 +14,11 @@ public class GameLogic {
 	private Dictionary dictionary;
 	private HandLetters letters;
 	private Deque<Step> stepStack = new LinkedList<Step> ();
-	private Set<Board> previousBoards = new HashSet<Board> ();
+//	private Set<Board> previousBoards = new HashSet<Board> ();
+	private Set<Set<Letter>> previousBoards = new HashSet<Set<Letter>> ();
 	private boolean foundSolution = false;
 	private Board bestSolution;
+	private Deque<Step> bestStack = new LinkedList<Step> ();
 	private int count = 0;
 	
 	public GameLogic(Dictionary dictionary, HandLetters letters) {
@@ -28,22 +30,19 @@ public class GameLogic {
 		Board board = new Board(dictionary);
 		this.bestSolution = board;
 		calculateStep(board);
+		printSteps();
 		bestSolution.print();
 		System.out.println("TABLEROS: " + count);
 	}
 	
 	public void calculateStep(Board board) {
 		count++;
-//		board.print();
-		int i = 0;
-		for (int a : letters.getLetters()){
-			System.out.print(Character.valueOf((char) (i++ + 'A')).toString() + ": " + a + ", ");
-		}
-		System.out.println();
+		if (count % 1000 == 0)
+			System.out.println(count);
 		if (letters.isEmpty()){
 //			board.print();
 			this.bestSolution = board;
-			foundSolution = true;
+//			foundSolution = true;
 			System.out.println(count);
 			return;
 		}
@@ -58,7 +57,7 @@ public class GameLogic {
 			//Hasta aca
 			locateAllWords(wordsList, board);
 			if (foundSolution)
-			return;
+				return;
 		}
 		else {
 			boolean isFinal = true;
@@ -105,22 +104,23 @@ public class GameLogic {
 	}
 	
 	private void takeStep(String word, Letter letter, Board board, int charPosition, boolean firstStep) {
-		List<Character> locatedLetters = new ArrayList<Character>(7);
+		List<Letter> locatedLetters = new ArrayList<Letter>(7);
 		Board newBoard = locateWord(board, word, letter, charPosition, locatedLetters);
 		// la magia se movio un par de lineas para arriba
-		if (!previousBoards.add(newBoard))
-			return;
-		// y termina aca, dos lineas...toma
 		if (newBoard == null)
 			return;
-		stepStack.push(new Step(locatedLetters, word, letters, firstStep));
+		if (!previousBoards.add(newBoard.getLettersList())) {
+			return;
+		}
+		// y termina aca, dos lineas...toma
+		stepStack.push(new Step(locatedLetters, word, letters, firstStep, letter, charPosition));
 		calculateStep(newBoard);
 		if (foundSolution)
 			return;
 		stepStack.pop().refreshLetters(letters);
 	}
 	
-	private Board locateWord(Board board, String word, Letter l, int letterPosition, List<Character> locatedLetters) {
+	private Board locateWord(Board board, String word, Letter l, int letterPosition, List<Letter> locatedLetters) {
 		
 		Board newBoard = new Board(board, dictionary, locatedLetters);
 		if (newBoard.addWord(word, l, letterPosition))
@@ -130,8 +130,32 @@ public class GameLogic {
 	}
 	
 	private void isSolution(Board board) {
-		if (this.bestSolution.getBoardScore() < board.getBoardScore())
+		if (this.bestSolution.getBoardScore() < board.getBoardScore()) {
+			stepStack = cloneStack(stepStack);
 			this.bestSolution = board;
-	//	board.print();
+		}
+	}
+	
+	private Deque<Step> cloneStack(Deque<Step> stack) {
+		Deque<Step> auxStack1 = new LinkedList<Step>();
+		Deque<Step> auxStack2 = new LinkedList<Step>();
+		while (!stack.isEmpty()) {
+			Step elem = stack.pop();
+			auxStack1.addFirst(elem);
+			auxStack2.addFirst(elem);
+		}
+		this.bestStack = auxStack2;
+		return auxStack1;
+	}
+	
+	private void printSteps() {
+		Board auxBoard = new Board(this.dictionary);
+		while (!bestStack.isEmpty()) {
+			Step aux = bestStack.pop();
+			System.out.println(aux.getWord());
+//			auxBoard = locateWord(auxBoard, aux.getWord(), 
+//					aux.getBoardLetterUsed(), aux.getCharPosition(), aux.getLocatedLetters());
+//			auxBoard.print();
+		}
 	}
 }

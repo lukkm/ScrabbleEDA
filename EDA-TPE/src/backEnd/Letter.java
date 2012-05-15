@@ -36,10 +36,11 @@ public class Letter {
 	}
 	
 	public int hashCode() {
-		final int[] primes = {277, 1033};
+		final int[] primes = {2, 3, 5};
 		int result = 1;
 		result = primes[0] * result * ((value == null) ? 1 : value.hashCode());
-		result = primes[1] * result * (x+y);
+		result = primes[1] * result * (x);
+		result = primes[2] * result * (y);
 		return result;
 	}
 
