@@ -17,19 +17,18 @@ public class GameLogic {
 	private Set<Set<Letter>> previousBoards = new HashSet<Set<Letter>> ();
 	private boolean foundSolution = false;
 	private Board bestSolution;
-	private int count = 0;
 	
 	public GameLogic(Dictionary dictionary, HandLetters letters) {
 		this.dictionary = dictionary;
 		this.letters = letters;
 	}
 	
-	public void startGame(){
+	public Set<Letter> startGame(){
 		Board board = new Board(dictionary);
 		this.bestSolution = board;
 		calculateStep(board);
 		bestSolution.print();
-		System.out.println("TABLEROS: " + count);
+		return bestSolution.getLettersList();
 	}
 	
 	public void calculateStep(Board board) {
