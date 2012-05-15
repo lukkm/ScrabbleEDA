@@ -17,14 +17,20 @@ public class GameLogic {
 	private Deque<Step> stepStack = new LinkedList<Step>();
 	private Set<Set<Letter>> previousBoards = new HashSet<Set<Letter>>();
 	private boolean foundSolution = false;
+	private boolean hasFinished = false;
 	private Board bestSolution;
 	private GameFrame visual;
+	private long startTime;
+	private long maxTime;
+	private int count;
 
 	public GameLogic(Dictionary dictionary, HandLetters letters,
-			GameFrame visual) {
+			GameFrame visual, int maxTime) {
 		this.dictionary = dictionary;
 		this.letters = letters;
 		this.visual = visual;
+		this.maxTime = (long) (maxTime*1000);
+		this.startTime = System.currentTimeMillis();
 	}
 
 	public Set<Letter> startGame() {
@@ -36,6 +42,9 @@ public class GameLogic {
 	}
 
 	public void calculateStep(Board board) {
+		if (maxTime != 0 && System.currentTimeMillis() - this.startTime >= this.maxTime) {
+			this.hasFinished = true;
+		}
 		if (letters.isEmpty()) {
 			// board.print();
 			this.bestSolution = board;
@@ -53,7 +62,7 @@ public class GameLogic {
 			}
 			// Hasta aca
 			locateAllWords(wordsList, board);
-			if (foundSolution)
+			if (foundSolution || hasFinished)
 				return;
 		} else {
 			boolean isFinal = true;
@@ -67,7 +76,7 @@ public class GameLogic {
 				if (!wordsList.isEmpty()) {
 					isFinal = false;
 					locateAllWordsIn(wordsList, l, board);
-					if (foundSolution)
+					if (foundSolution || hasFinished)
 						return;
 				}
 			}
@@ -81,7 +90,7 @@ public class GameLogic {
 			for (int i = 0; i < s.length(); i++) {
 				Letter l = new Letter(s.charAt(i), 7, 7, Rotation.HORIZONTAL);
 				takeStep(s, l, board, i, true);
-				if (foundSolution)
+				if (foundSolution || hasFinished)
 					return;
 			}
 		}
@@ -92,7 +101,7 @@ public class GameLogic {
 			for (int i = 0; i < s.length(); i++) {
 				if (s.charAt(i) == l.getValue()) {
 					takeStep(s, l, board, i, false);
-					if (foundSolution)
+					if (foundSolution || hasFinished)
 						return;
 				}
 			}
@@ -122,7 +131,7 @@ public class GameLogic {
 		stepStack.push(new Step(locatedLetters, word, letters, firstStep,
 				letter, charPosition));
 		calculateStep(newBoard);
-		if (foundSolution)
+		if (foundSolution || hasFinished)
 			return;
 		stepStack.pop().refreshLetters(letters);
 	}

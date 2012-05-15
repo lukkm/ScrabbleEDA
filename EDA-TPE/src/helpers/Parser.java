@@ -68,10 +68,10 @@ public class Parser {
 		return "";
 	}
 
-	public void printSolution(Set<Letter> out) {
+	public void printSolution(Set<Letter> out, String file) {
 		Writer writer;
 		try {
-			writer = new FileWriter("C:\\Pruebas\\Salida\\Solution.txt");
+			writer = new FileWriter(file);
 			BufferedWriter buffered = new BufferedWriter(writer);
 			char[][] line = new char[15][30]; 
 			for (int i = 0 ; i < 15 ; i++) {

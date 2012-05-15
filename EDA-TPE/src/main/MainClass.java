@@ -23,23 +23,60 @@ public class MainClass {
 		
 		CharValues scores = new CharValues();
 		Parser parser = new Parser();
-		List<String> list = parser.parseWords("C:\\Pruebas\\wordfileE.txt");
-		HandLetters letters = new HandLetters(parser.parseLetters("C:\\Pruebas\\lettersE.txt"));
-		GameFrame gameFrame = new GameFrame();
 		
-		gameFrame.setVisible(true);
+		List<String> list = null;
+		if (args.length >= 1)
+			list = parser.parseWords("C:\\Pruebas\\" + args[0]);
+		
+		HandLetters letters = null;
+		if (args.length >= 2)
+			letters = new HandLetters(parser.parseLetters("C:\\Pruebas\\" + args[1]));
+		
+		GameFrame gameFrame = null;
+		if (args.length >= 4)
+			gameFrame = setGameFrame(args[3]);
 		
 		long a = System.currentTimeMillis();
 		
 		Dictionary dictionary = new Dictionary(scores);
 		dictionary.addWords(list);
 		
-		GameLogic game = new GameLogic(dictionary, letters, gameFrame);
+		int maxTime = 0;
+		if (args.length >= 6)
+			maxTime = getMaxTime(args[4], args[5]);
+		
+		GameLogic game = new GameLogic(dictionary, letters, gameFrame, maxTime);
+		
 		Set<Letter> out = game.startGame();
-		parser.printSolution(out);		
+		
+		String fileName = "out.txt";
+		if (args.length >= 3)
+			fileName = args[2];
+		parser.printSolution(out, "C:\\Pruebas\\" + fileName);		
 			
 		System.out.println("TIEMPO: " + (System.currentTimeMillis() - a));
 		
+		if (gameFrame != null)
+			gameFrame.dispose();
+		
 	}
 	
+	private static GameFrame setGameFrame(String arg) {
+		GameFrame gameFrame = null;
+		if (arg != null && arg.equals("[-visual]")) {
+			gameFrame = new GameFrame();
+			gameFrame.setVisible(true);
+		}
+		return gameFrame;
+	}
+	
+	private static int getMaxTime(String arg1, String arg2) {
+		if (arg1 != null) {
+			if (arg1.substring(0, 9).equals("[-maxtime")) {
+				return Integer.valueOf(arg2.substring(0, arg2.length()-1));
+			}
+			throw new IllegalArgumentException();
+		}
+		return 0;
+	}
 }
