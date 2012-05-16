@@ -47,9 +47,8 @@ public class GameLogic {
 			this.hasFinished = true;
 		}
 		if (letters.isEmpty()) {
-			// board.print();
 			this.bestSolution = board;
-			// foundSolution = true;
+			foundSolution = true;
 			// System.out.println(count);
 			return;
 		}
@@ -114,17 +113,18 @@ public class GameLogic {
 		List<Letter> locatedLetters = new ArrayList<Letter>(7);
 		Board newBoard = locateWord(board, word, letter, charPosition,
 				locatedLetters);
-		// la magia se movio un par de lineas para arriba
 		if (newBoard == null)
 			return;
 		
 		//tomá, una sola línea para el visual... Y te separé front de back.
 		visual.printBoard(newBoard);
 		
+		// la magia se movio un par de lineas para arriba
 		if (!previousBoards.add(newBoard.getLettersList())) {
 			return;
 		}
 		// y termina aca, dos lineas...toma
+		
 		stepStack.push(new Step(locatedLetters, word, letters, firstStep,
 				charPosition));
 		calculateStep(newBoard);

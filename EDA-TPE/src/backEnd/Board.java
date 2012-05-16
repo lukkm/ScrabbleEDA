@@ -43,10 +43,8 @@ public class Board {
 	}
 	
 	public boolean setWord(int startX, int startY, String word, Rotation rot){
-		if (startX < 0 || startX > board.length - 1 || startY < 0 || startY > board[0].length - 1)
-			return false;
 		int length = word.length();
-		if (startX + length * rot.getX() > board.length - 1 || startY + length * rot.getY() > board.length - 1)
+		if (!validateWordMargins(startX, startY, length, rot))
 			return false;
 		for (int i = 0; i < length; i++){
 			int posX = startX + i * rot.getX();
@@ -73,6 +71,14 @@ public class Board {
 		return true;
 	}
 	
+	private boolean validateWordMargins(int startX, int startY, int length, Rotation rot){
+		if (startX < 0 || startX > board.length -1 || startY < 0 || startY > board[0].length -1)
+			return false;
+		if (startX + length * rot.getX() > board.length || startY + length * rot.getY() > board[0].length)
+			return false;
+		return true;
+	}
+	
 	private boolean crossCheck(Character c, int x, int y, Rotation rot){
 		if (rot == Rotation.NONE)
 			return true;
@@ -94,12 +100,6 @@ public class Board {
 		int lowerX = startX - rot.getX();
 		int upperY = startY + length * rot.getY();
 		int lowerY = startY - rot.getY();
-//		if (lowerX < 0 || lowerY < 0)
-//			if (board[upperX][upperY] == null)
-//				return true;
-//		if (upperX > 14 || upperY > 14)
-//			if (board[lowerX][lowerY] == null)
-//				return true;
 		if ((lowerX < 0 || lowerY < 0 || board[lowerX][lowerY] == null) && 
 				(upperX > 14 || upperY > 14 || board[upperX][upperY] == null))
 			return true;
