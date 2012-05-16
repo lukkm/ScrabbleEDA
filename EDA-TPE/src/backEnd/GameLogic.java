@@ -56,11 +56,9 @@ public class GameLogic {
 		List<Letter> charList = board.getAvailableLetters();
 		if (charList.isEmpty()) {
 			wordsList = dictionary.filterWords(letters.getLetters());
-			// Cambiarlo despues
 			if (wordsList.isEmpty()) {
 				return;
 			}
-			// Hasta aca
 			locateAllWords(wordsList, board);
 			if (foundSolution || hasFinished)
 				return;
