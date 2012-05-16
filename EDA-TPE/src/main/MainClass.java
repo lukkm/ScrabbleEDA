@@ -12,14 +12,11 @@ import backEnd.Dictionary;
 import backEnd.GameLogic;
 import backEnd.HandLetters;
 import backEnd.Letter;
+import backEnd.VisualOperator;
 
 public class MainClass {
 
 	public static void main(String[] args){
-		
-		/*
-		 * luki sos un gato
-		 */
 		
 		CharValues scores = new CharValues();
 		Parser parser = new Parser();
@@ -45,7 +42,7 @@ public class MainClass {
 		if (args.length >= 6)
 			maxTime = getMaxTime(args[4], args[5]);
 		
-		GameLogic game = new GameLogic(dictionary, letters, gameFrame, maxTime);
+		GameLogic game = new GameLogic(dictionary, letters, new VisualOperator(gameFrame), maxTime);
 		
 		Set<Letter> out = game.startGame();
 		

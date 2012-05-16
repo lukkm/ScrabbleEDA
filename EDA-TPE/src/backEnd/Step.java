@@ -7,16 +7,14 @@ import java.util.Map;
 public class Step {
 
 	private Map<Character, Integer> lettersUsed = new HashMap<Character, Integer> ();
-	private Letter boardLetterUsed;
 	private int charPosition;
 	List<Letter> locatedLetters;
 	private boolean firstStep;
 	private String word;
 	
-	public Step(List<Letter> locatedLetters, String word, HandLetters letters, boolean firstStep, Letter boardLetterUsed, int charPosition) {
+	public Step(List<Letter> locatedLetters, String word, HandLetters letters, boolean firstStep,  int charPosition) {
 		this.firstStep = firstStep;
 		this.word = word;
-		this.boardLetterUsed = boardLetterUsed;
 		this.locatedLetters = locatedLetters;
 		this.charPosition = charPosition;
 		for (char c : word.toCharArray()) {
@@ -30,10 +28,6 @@ public class Step {
 			for (Letter l : locatedLetters)
 				letters.putLetter(l.getValue());
 		}
-	}
-	
-	public Letter getBoardLetterUsed() {
-		return this.boardLetterUsed;
 	}
 	
 	public int getCharPosition() {

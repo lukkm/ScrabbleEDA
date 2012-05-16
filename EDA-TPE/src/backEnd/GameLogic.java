@@ -19,17 +19,17 @@ public class GameLogic {
 	private boolean foundSolution = false;
 	private boolean hasFinished = false;
 	private Board bestSolution;
-	private GameFrame visual;
+	private VisualOperator visual;
 	private long startTime;
 	private long maxTime;
 	private int count;
 
 	public GameLogic(Dictionary dictionary, HandLetters letters,
-			GameFrame visual, int maxTime) {
+			VisualOperator visual, int maxTime) {
 		this.dictionary = dictionary;
 		this.letters = letters;
 		this.visual = visual;
-		this.maxTime = (long) (maxTime*1000);
+		this.maxTime = (long) (maxTime * 1000);
 		this.startTime = System.currentTimeMillis();
 	}
 
@@ -42,13 +42,14 @@ public class GameLogic {
 	}
 
 	public void calculateStep(Board board) {
-		if (maxTime != 0 && System.currentTimeMillis() - this.startTime >= this.maxTime) {
+		if (maxTime != 0
+				&& System.currentTimeMillis() - this.startTime >= this.maxTime) {
 			this.hasFinished = true;
 		}
 		if (letters.isEmpty()) {
 			// board.print();
 			this.bestSolution = board;
-//			foundSolution = true;
+			// foundSolution = true;
 			// System.out.println(count);
 			return;
 		}
@@ -116,20 +117,16 @@ public class GameLogic {
 		// la magia se movio un par de lineas para arriba
 		if (newBoard == null)
 			return;
-		if (visual != null){
-			try{
-				Thread.sleep(50);
-			}catch (Exception e){
-				return;
-			}
-			visual.printBoard(newBoard);
-		}
+		
+		//tomá, una sola línea para el visual... Y te separé front de back.
+		visual.printBoard(newBoard);
+		
 		if (!previousBoards.add(newBoard.getLettersList())) {
 			return;
 		}
 		// y termina aca, dos lineas...toma
 		stepStack.push(new Step(locatedLetters, word, letters, firstStep,
-				letter, charPosition));
+				charPosition));
 		calculateStep(newBoard);
 		if (foundSolution || hasFinished)
 			return;
