@@ -1,6 +1,5 @@
 package backEnd;
 
-import frontEnd.GameFrame;
 import helpers.Rotation;
 
 import java.util.ArrayList;
