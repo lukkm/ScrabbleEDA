@@ -44,7 +44,7 @@ public class Parser {
 	}
 	
 	private boolean isValidWord(String s){
-		if (s.length()<3  || s.length()>7)
+		if (s.length()<2  || s.length()>7)
 			return false;
 		int diff;
 		for (char c : s.toCharArray()){
