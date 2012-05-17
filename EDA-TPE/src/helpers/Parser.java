@@ -39,13 +39,12 @@ public class Parser {
 		} catch (IOException e) {
 			System.out.println("Archivo invalido");
 		}
-		
 		return lstReturn;
 		
 	}
 	
 	private boolean isValidWord(String s){
-		if (s.length()<3)
+		if (s.length()<3  || s.length()>7)
 			return false;
 		int diff;
 		for (char c : s.toCharArray()){
