@@ -32,7 +32,9 @@ public class Parser {
 		
 		try {
 			while ((line = inputWords.readLine()) != null){
-				lstReturn.add(line.toUpperCase());
+				String lineToUpper = line.toUpperCase();
+				if (isValidWord(lineToUpper))
+					lstReturn.add(lineToUpper);
 			}
 		} catch (IOException e) {
 			System.out.println("Archivo invalido");
@@ -40,6 +42,19 @@ public class Parser {
 		
 		return lstReturn;
 		
+	}
+	
+	private boolean isValidWord(String s){
+		if (s.length()<3)
+			return false;
+		int diff;
+		for (char c : s.toCharArray()){
+			diff = ((int)c)-'A';
+			if (diff < 0 || diff > 25)
+				return false;
+		}
+		return true;
+			
 	}
 	
 	public String parseLetters(String file){
