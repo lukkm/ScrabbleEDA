@@ -32,28 +32,15 @@ public class Parser {
 		
 		try {
 			while ((line = inputWords.readLine()) != null){
-				String lineToUpper = line.toUpperCase();
-				if (isValidWord(lineToUpper))
-					lstReturn.add(lineToUpper);
+				if (isValidWord(line)) {
+					lstReturn.add(line.toUpperCase());
+				}
 			}
 		} catch (IOException e) {
 			System.out.println("Archivo invalido");
 		}
 		return lstReturn;
 		
-	}
-	
-	private boolean isValidWord(String s){
-		if (s.length()<2  || s.length()>7)
-			return false;
-		int diff;
-		for (char c : s.toCharArray()){
-			diff = ((int)c)-'A';
-			if (diff < 0 || diff > 25)
-				return false;
-		}
-		return true;
-			
 	}
 	
 	public String parseLetters(String file){
@@ -74,12 +61,21 @@ public class Parser {
 			line = inputLetters.readLine();
 			if (line == null)
 				return "";
-			return line;
+			if (validateLetters(line))
+				return line.toUpperCase();
 		} catch (IOException e) {
 			System.out.println("Archivo invalido");
 		}
 		
 		return "";
+	}
+	
+	private boolean isValidWord(String s){
+		return s.matches("[A-Za-z]{2,7}");			
+	}
+	
+	private boolean validateLetters(String s) {
+		return s.matches("[A-Za-z]{1,80}");
 	}
 
 	public void printSolution(Set<Letter> out, String file) {
