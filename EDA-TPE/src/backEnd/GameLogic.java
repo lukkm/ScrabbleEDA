@@ -1,6 +1,7 @@
 package backEnd;
 
 import helpers.Rotation;
+import helpers.StringIterator;
 
 import java.util.ArrayList;
 import java.util.Deque;
@@ -21,7 +22,6 @@ public class GameLogic {
 	private VisualOperator visual;
 	private long startTime;
 	private long maxTime;
-	private int count;
 
 	public GameLogic(Dictionary dictionary, HandLetters letters,
 			VisualOperator visual, int maxTime) {
@@ -48,7 +48,6 @@ public class GameLogic {
 		if (letters.isEmpty()) {
 			this.bestSolution = board;
 			foundSolution = true;
-			// System.out.println(count);
 			return;
 		}
 		List<String> wordsList;
@@ -58,6 +57,10 @@ public class GameLogic {
 			if (wordsList.isEmpty()) {
 				return;
 			}
+			this.letters.eraseLetters(getUnusedLetters(wordsList));
+			for (int a : this.letters.getLetters())
+				System.out.print(a + ", ");
+			System.out.println();
 			locateAllWords(wordsList, board);
 			if (foundSolution || hasFinished)
 				return;
@@ -142,5 +145,23 @@ public class GameLogic {
 	private void isSolution(Board board) {
 		if (this.bestSolution.getBoardScore() < board.getBoardScore())
 			this.bestSolution = board;
+	}
+	
+	private boolean[] getUnusedLetters(List<String> wordsList) {
+		boolean[] letterUsed = new boolean[26];
+		int lettersUnusedQuantity = 0;
+		for (String s : wordsList) {
+			StringIterator itString = new StringIterator(s);
+			while (itString.hasNext()) {
+				Character c = itString.next();
+				if (!letterUsed[c - 'A']){
+					letterUsed[c - 'A'] = true;
+					lettersUnusedQuantity++;
+				}
+				if (lettersUnusedQuantity == 26)
+					return letterUsed;
+			}
+		}
+		return letterUsed;
 	}
 }

@@ -35,4 +35,9 @@ public class HandLetters {
 		checkSum += quantity;
 	}
 	
+	public void eraseLetters(boolean[] letterUsed) {
+		for (int i = 0; i < letterUsed.length ; i++)
+			if (!letterUsed[i])
+				this.letters[i] = 0;
+	}
 }

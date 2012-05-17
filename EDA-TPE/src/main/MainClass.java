@@ -23,11 +23,11 @@ public class MainClass {
 		
 		List<String> list = null;
 		if (args.length >= 1)
-			list = parser.parseWords("C:\\Pruebas\\" + args[0]);
+			list = parser.parseWords("C:\\Pruebas\\archivos\\" + args[0]);
 		
 		HandLetters letters = null;
 		if (args.length >= 2)
-			letters = new HandLetters(parser.parseLetters("C:\\Pruebas\\" + args[1]));
+			letters = new HandLetters(parser.parseLetters("C:\\Pruebas\\archivos\\" + args[1]));
 		
 		GameFrame gameFrame = null;
 		if (args.length >= 4)
@@ -49,7 +49,7 @@ public class MainClass {
 		String fileName = "out.txt";
 		if (args.length >= 3)
 			fileName = args[2];
-		parser.printSolution(out, "C:\\Pruebas\\" + fileName);		
+		parser.printSolution(out, "C:\\Pruebas\\archivos\\" + fileName);		
 			
 		System.out.println("TIEMPO: " + (System.currentTimeMillis() - a));
 		
