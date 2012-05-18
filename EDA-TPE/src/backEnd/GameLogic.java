@@ -18,6 +18,7 @@ public class GameLogic {
 	private Set<Set<Letter>> previousBoards = new HashSet<Set<Letter>>();
 	private boolean foundSolution = false;
 	private boolean hasFinished = false;
+	private boolean firstStep = true;
 	private Board bestSolution;
 	private VisualOperator visual;
 	private long startTime;
@@ -35,6 +36,9 @@ public class GameLogic {
 	public Set<Letter> startGame() {
 		Board board = new Board(dictionary);
 		this.bestSolution = board;
+		for (int i : letters.getLetters())
+			System.out.print(i + ", ");
+		System.out.println();
 		calculateStep(board);
 		bestSolution.print();
 		return bestSolution.getLettersList();
@@ -57,10 +61,15 @@ public class GameLogic {
 			if (wordsList.isEmpty()) {
 				return;
 			}
-			this.letters.eraseLetters(getUnusedLetters(wordsList));
-			for (int a : this.letters.getLetters())
-				System.out.print(a + ", ");
-			System.out.println();
+			System.out.println(wordsList);
+//			wordsList.add("RETO");
+			if (firstStep) {
+				this.letters.eraseLetters(getUnusedLetters(wordsList), wordsList);
+				for (int i : letters.getLetters())
+					System.out.print(i + ", ");
+				System.out.println();
+				firstStep = false;
+			}
 			locateAllWords(wordsList, board);
 			if (foundSolution || hasFinished)
 				return;
@@ -147,21 +156,17 @@ public class GameLogic {
 			this.bestSolution = board;
 	}
 	
-	private boolean[] getUnusedLetters(List<String> wordsList) {
-		boolean[] letterUsed = new boolean[26];
-		int lettersUnusedQuantity = 0;
+	private int[] getUnusedLetters(List<String> wordsList) {
+		int[] letterUsed = new int[26];
 		for (String s : wordsList) {
 			StringIterator itString = new StringIterator(s);
 			while (itString.hasNext()) {
-				Character c = itString.next();
-				if (!letterUsed[c - 'A']){
-					letterUsed[c - 'A'] = true;
-					lettersUnusedQuantity++;
-				}
-				if (lettersUnusedQuantity == 26)
-					return letterUsed;
+				letterUsed[itString.next() - 'A']++;
 			}
 		}
+		for (int i : letterUsed)
+			System.out.print(i + ", ");
+		System.out.println();
 		return letterUsed;
 	}
 }
