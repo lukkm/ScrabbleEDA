@@ -30,8 +30,8 @@ public class Board implements Cloneable{
 		this.locatedLetters = locatedLetters;
 	}
 	
-	public Board clone(){
-		return new Board(this, dictionary, new ArrayList<Letter>(7));
+	public Board cloneBoard(List<Letter> lettersList){
+		return new Board(this, dictionary, lettersList);
 	}
 	
 	public void addLetter(Letter addLetter){

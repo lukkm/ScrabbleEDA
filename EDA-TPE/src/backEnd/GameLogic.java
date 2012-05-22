@@ -137,7 +137,7 @@ public class GameLogic {
 
 	private Board locateWord(Board board, String word, Letter l,
 			int letterPosition, List<Letter> locatedLetters) {
-		Board newBoard = board.clone();
+		Board newBoard = board.cloneBoard(locatedLetters);
 		if (newBoard.addWord(word, l, letterPosition))
 			return newBoard;
 		isSolution(board);
