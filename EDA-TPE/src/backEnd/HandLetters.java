@@ -1,7 +1,5 @@
 package backEnd;
 
-import helpers.StringIterator;
-
 import java.util.List;
 
 public class HandLetters {
@@ -41,45 +39,11 @@ public class HandLetters {
 	}
 	
 	public void eraseLetters(int[] letterUsed, List<String> wordsList) {
-		for (int i = 0; i < 26 ; i++)
-			if (letterUsed[i] < letters[i]) {
-				if (letterUsed[i] == 0) {
-					this.checkSum -= letters[i];
-					letters[i] = 0;
-				}
-			else {
-					int difference = letters[i] - letterUsed[i] + 1; //4
-					eraseLetters(i, difference, wordsList);
-				}
-			}
-	}
-	
-	private void eraseLetters(int charIndex, int difference, List<String> wordsList) {
-		int maxTimes = 0;
-		for (String s : wordsList) {
-			if (s.indexOf('A' + charIndex) != -1) {
-				int aux = times(s, difference);
-				if (aux > maxTimes)
-					maxTimes = aux;
+		for (int i = 0; i < 26 ; i++){
+			if (letterUsed[i] == 0) {
+				this.checkSum -= letters[i];
+				letters[i] = 0;
 			}
 		}
-		letters[charIndex] -= (difference - maxTimes); // 2 - 
-		this.checkSum -= (difference - maxTimes);
-	}
-	
-	private int times(String word, int difference) {
-		StringIterator stringIt = new StringIterator(word);
-		int[] letterAppearences = new int[26];
-		while (stringIt.hasNext())
-			letterAppearences[stringIt.next() - 'A']++;
-		int count = 1;
-		for (int i = 0 ; i < 26 ; i++) {
-			if (letterAppearences[i] != 0 && letters[i] != 0) {
-				int aux = (int) (letters[i] / letterAppearences[i]);
-				if ( aux <= difference && aux > count)
-					count = aux;
-			}
-		}
-		return count;
 	}
 }

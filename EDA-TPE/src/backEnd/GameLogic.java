@@ -20,7 +20,7 @@ public class GameLogic {
 	private boolean hasFinished = false;
 	private boolean firstStep = true;
 	private Board bestSolution;
-	private VisualOperator visual;
+	private VisualOperator visualOp;
 	private long startTime;
 	private long maxTime;
 
@@ -28,7 +28,7 @@ public class GameLogic {
 			VisualOperator visual, int maxTime) {
 		this.dictionary = dictionary;
 		this.letters = letters;
-		this.visual = visual;
+		this.visualOp = visual;
 		this.maxTime = (long) (maxTime * 1000);
 		this.startTime = System.currentTimeMillis();
 	}
@@ -36,9 +36,6 @@ public class GameLogic {
 	public Set<Letter> startGame() {
 		Board board = new Board(dictionary);
 		this.bestSolution = board;
-		for (int i : letters.getLetters())
-			System.out.print(i + ", ");
-		System.out.println();
 		calculateStep(board);
 		bestSolution.print();
 		return bestSolution.getLettersList();
@@ -55,36 +52,29 @@ public class GameLogic {
 			return;
 		}
 		List<String> wordsList;
-//		dictionary.printWords();
 		List<Letter> charList = board.getAvailableLetters();
 		if (charList.isEmpty()) {
-			for (int i : letters.getLetters())
-				System.out.print(i + ", ");
-			System.out.println();
+			
 			wordsList = dictionary.filterWords(letters.getLetters());
-			if (wordsList.isEmpty()) {
+			if (wordsList.isEmpty())
 				return;
-			}
-			System.out.println(wordsList);
-//			wordsList.add("RETO");
+
 			if (firstStep) {
 				this.letters.eraseLetters(getUnusedLetters(wordsList), wordsList);
-				for (int i : letters.getLetters())
-					System.out.print(i + ", ");
-				System.out.println();
 				firstStep = false;
 			}
 			locateAllWords(wordsList, board);
 			if (foundSolution || hasFinished)
 				return;
+			
 		} else {
 			boolean isFinal = true;
 			for (Letter l : charList) {
 				letters.putLetter(l.getValue());
 				int maxLength = Math.max(l.getX() * l.getRotation().getX(),
-						l.getY() * l.getRotation().getY()) + 1;
+								l.getY() * l.getRotation().getY()) + 1;
 				wordsList = dictionary.filterWordsWith(letters.getLetters(),
-						l.getValue(), maxLength);
+							l.getValue(), maxLength);
 				letters.takeLetter(l.getValue());
 				if (!wordsList.isEmpty()) {
 					isFinal = false;
@@ -129,14 +119,11 @@ public class GameLogic {
 		if (newBoard == null)
 			return;
 		
-		//tomá, una sola línea para el visual... Y te separé front de back.
-		visual.printBoard(newBoard);
+		visualOp.printBoard(newBoard);
 		
-		// la magia se movio un par de lineas para arriba
 		if (!previousBoards.add(newBoard.getLettersList())) {
 			return;
 		}
-		// y termina aca, dos lineas...toma
 		
 		stepStack.push(new Step(locatedLetters, word, letters, firstStep,
 				charPosition));
@@ -148,7 +135,7 @@ public class GameLogic {
 
 	private Board locateWord(Board board, String word, Letter l,
 			int letterPosition, List<Letter> locatedLetters) {
-		Board newBoard = new Board(board, dictionary, locatedLetters);
+		Board newBoard = board.clone();
 		if (newBoard.addWord(word, l, letterPosition))
 			return newBoard;
 		isSolution(board);
@@ -168,9 +155,6 @@ public class GameLogic {
 				letterUsed[itString.next() - 'A']++;
 			}
 		}
-//		for (int i : letterUsed)
-//			System.out.print(i + ", ");
-//		System.out.println();
 		return letterUsed;
 	}
 }
