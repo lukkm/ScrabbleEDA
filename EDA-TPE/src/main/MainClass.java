@@ -1,6 +1,5 @@
 package main;
 
-
 import frontEnd.GameFrame;
 import helpers.CharValues;
 import helpers.Parser;

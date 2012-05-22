@@ -18,7 +18,7 @@ public class GameLogic {
 	private VisualOperator visualOp;
 	private Deque<Step> stepStack = new LinkedList<Step>();
 	private Set<Set<Letter>> previousBoards = new HashSet<Set<Letter>>();
-	private boolean foundSolution = false, hasFinished = false, firstStep = true;
+	private boolean firstStep = true;
 	private long startTime, maxTime;
 
 	public GameLogic(Dictionary dictionary, HandLetters letters,
@@ -38,15 +38,14 @@ public class GameLogic {
 		return bestSolution.getLettersList();
 	}
 
-	public void calculateStep(Board board) {
+	public boolean calculateStep(Board board) {
 		if (maxTime != 0
 				&& System.currentTimeMillis() - this.startTime >= this.maxTime) {
-			this.hasFinished = true;
+			return true;
 		}
 		if (letters.isEmpty()) {
 			this.bestSolution = board;
-			foundSolution = true;
-			return;
+			return true;
 		}
 		List<String> wordsList;
 		List<Letter> charList = board.getAvailableLetters();
@@ -54,20 +53,13 @@ public class GameLogic {
 			
 			wordsList = dictionary.filterWords(letters.getLetters());
 			if (wordsList.isEmpty())
-				return;
-
-			System.out.println(wordsList);
+				return false;
 			
 			if (firstStep) {
 				this.letters.eraseLetters(getUnusedLetters(wordsList), wordsList);
 				firstStep = false;
 			}
-			for (int i : letters.getLetters())
-				System.out.print(i + ", ");
-			System.out.println();
-			locateAllWords(wordsList, board);
-			if (foundSolution || hasFinished)
-				return;
+			return locateAllWords(wordsList, board);
 			
 		} else {
 			boolean isFinal = true;
@@ -80,59 +72,58 @@ public class GameLogic {
 				letters.takeLetter(l.getValue());
 				if (!wordsList.isEmpty()) {
 					isFinal = false;
-					locateAllWordsIn(wordsList, l, board);
-					if (foundSolution || hasFinished)
-						return;
+					if (locateAllWordsIn(wordsList, l, board))
+						return true;
 				}
 			}
 			if (isFinal)
 				isSolution(board);
 		}
+		return false;
 	}
 
-	private void locateAllWords(List<String> wordsList, Board board) {
+	private boolean locateAllWords(List<String> wordsList, Board board) {
 		for (String s : wordsList) {
 			for (int i = 0; i < s.length(); i++) {
 				Letter l = new Letter(s.charAt(i), 7, 7, Rotation.HORIZONTAL);
-				takeStep(s, l, board, i, true);
-				if (foundSolution || hasFinished)
-					return;
+				if (takeStep(s, l, board, i, true))
+					return true;
 			}
 		}
+		return false;
 	}
 
-	private void locateAllWordsIn(List<String> wordsList, Letter l, Board board) {
+	private boolean locateAllWordsIn(List<String> wordsList, Letter l, Board board) {
 		for (String s : wordsList) {
 			for (int i = 0; i < s.length(); i++) {
 				if (s.charAt(i) == l.getValue()) {
-					takeStep(s, l, board, i, false);
-					if (foundSolution || hasFinished)
-						return;
+					if (takeStep(s, l, board, i, false))
+						return true;
 				}
 			}
 		}
+		return false;
 	}
 
-	private void takeStep(String word, Letter letter, Board board,
+	private boolean takeStep(String word, Letter letter, Board board,
 			int charPosition, boolean firstStep) {
 		List<Letter> locatedLetters = new ArrayList<Letter>(7);
 		Board newBoard = locateWord(board, word, letter, charPosition,
 				locatedLetters);
 		if (newBoard == null)
-			return;
+			return false;
 		
 		visualOp.printBoard(newBoard);
 		
 		if (!previousBoards.add(newBoard.getLettersList())) {
-			return;
+			return false;
 		}
 		
 		stepStack.push(new Step(locatedLetters, word, letters, firstStep,
 				charPosition));
-		calculateStep(newBoard);
-		if (foundSolution || hasFinished)
-			return;
+		boolean ret = calculateStep(newBoard);
 		stepStack.pop().refreshLetters(letters);
+		return ret;
 	}
 
 	private Board locateWord(Board board, String word, Letter l,

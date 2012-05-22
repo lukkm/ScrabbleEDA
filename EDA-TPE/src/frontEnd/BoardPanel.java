@@ -16,7 +16,7 @@ public class BoardPanel extends JPanel{
 	private final int cellSize = 30;
 	private final int spanLeft = 12, spanBot = 10;
 	private final int rows = 15, columns = 15;
-	private final Color gridColor = Color.GRAY;
+	private final Color gridColor = Color.PINK;
 	private Set<Letter> letterList = new HashSet<Letter>();	
 	
 	public BoardPanel() {

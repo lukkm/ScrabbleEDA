@@ -119,8 +119,6 @@ public class Dictionary {
 		public Node(Character value, String previousWord) {
 			this.value = value;
 			this.word = new Word(previousWord + value);
-			if (word.value.equals("MONITOR"))
-				System.out.println("hola");
 		}
 		
 		public void printWords() {
