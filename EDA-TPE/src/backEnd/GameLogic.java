@@ -22,7 +22,7 @@ public class GameLogic {
 	private long startTime, maxTime;
 
 	public GameLogic(Dictionary dictionary, HandLetters letters,
-			VisualOperator visualOp, int maxTime) {
+					VisualOperator visualOp, int maxTime) {
 		this.dictionary = dictionary;
 		this.letters = letters;
 		this.visualOp = visualOp;
@@ -56,10 +56,15 @@ public class GameLogic {
 			if (wordsList.isEmpty())
 				return;
 
+			System.out.println(wordsList);
+			
 			if (firstStep) {
 				this.letters.eraseLetters(getUnusedLetters(wordsList), wordsList);
 				firstStep = false;
 			}
+			for (int i : letters.getLetters())
+				System.out.print(i + ", ");
+			System.out.println();
 			locateAllWords(wordsList, board);
 			if (foundSolution || hasFinished)
 				return;

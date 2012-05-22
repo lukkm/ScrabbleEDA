@@ -181,8 +181,6 @@ public class Dictionary {
 		}
 
 		public void getFilterWords(int[] letters, List<String> lst) {
-//			if (word.value.equals("MONITOR"))
-//				System.out.println("HOLA");
 			if (word.getAppearencesOf(value) <= letters[value - 'A']) {
 				if (end)
 					lst.add(word.getWord());
