@@ -14,21 +14,18 @@ public class GameLogic {
 
 	private Dictionary dictionary;
 	private HandLetters letters;
-	private Deque<Step> stepStack = new LinkedList<Step>();
-	private Set<Set<Letter>> previousBoards = new HashSet<Set<Letter>>();
-	private boolean foundSolution = false;
-	private boolean hasFinished = false;
-	private boolean firstStep = true;
 	private Board bestSolution;
 	private VisualOperator visualOp;
-	private long startTime;
-	private long maxTime;
+	private Deque<Step> stepStack = new LinkedList<Step>();
+	private Set<Set<Letter>> previousBoards = new HashSet<Set<Letter>>();
+	private boolean foundSolution = false, hasFinished = false, firstStep = true;
+	private long startTime, maxTime;
 
 	public GameLogic(Dictionary dictionary, HandLetters letters,
-			VisualOperator visual, int maxTime) {
+			VisualOperator visualOp, int maxTime) {
 		this.dictionary = dictionary;
 		this.letters = letters;
-		this.visualOp = visual;
+		this.visualOp = visualOp;
 		this.maxTime = (long) (maxTime * 1000);
 		this.startTime = System.currentTimeMillis();
 	}

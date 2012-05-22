@@ -10,7 +10,8 @@ import java.util.Set;
 
 public class Board implements Cloneable{
 
-	private Letter[][] board = new Letter[15][15];
+	private final int ROWS = 15, COLS = 15;
+	private Letter[][] board = new Letter[ROWS][COLS];
 	private Set<Letter> lettersList = new HashSet<Letter>();
 	private static final int[][] primes = new Primes().getPrimes(); 
 	private Dictionary dictionary;
@@ -52,8 +53,8 @@ public class Board implements Cloneable{
 	
 	
 	public boolean addWord(String word, Letter locatedLetter, int charPosition){
-		int xPosition = getOffSetX(locatedLetter.getX(), - charPosition, locatedLetter.getRotation());
-		int yPosition = getOffSetY(locatedLetter.getX(), - charPosition, locatedLetter.getRotation());
+		int xPosition = getOffSetX(locatedLetter.getX(), -charPosition, locatedLetter.getRotation());
+		int yPosition = getOffSetY(locatedLetter.getY(), -charPosition, locatedLetter.getRotation());
 		return setWord(xPosition, yPosition, word, locatedLetter.getRotation());
 	}
 	
@@ -87,9 +88,9 @@ public class Board implements Cloneable{
 	}
 	
 	private boolean validateWordMargins(int startX, int startY, int length, Rotation rot){
-		if (startX < 0 || startX > board.length -1 || startY < 0 || startY > board[0].length -1)
+		if (startX < 0 || startX > ROWS -1 || startY < 0 || startY > COLS -1)
 			return false;
-		if (getOffSetX(startX, length, rot) > board.length || getOffSetY(startY, length, rot) > board[0].length)
+		if (getOffSetX(startX, length, rot) > ROWS || getOffSetY(startY, length, rot) > COLS)
 			return false;
 		return true;
 	}
@@ -101,7 +102,7 @@ public class Board implements Cloneable{
 		int lowerX = x - rot.getX();
 		int upperY = y + rot.getY();
 		int lowerY = y - rot.getY();
-		if ((upperX > 14 || upperY > 14 || board[upperX][upperY] == null )&&
+		if ((upperX > ROWS-1 || upperY > COLS-1 || board[upperX][upperY] == null )&&
 				( lowerX < 0 || lowerY < 0 || board[lowerX][lowerY] == null))
 			return true;
 		String word = c.toString();
@@ -125,7 +126,7 @@ public class Board implements Cloneable{
 	}
 	
 	private String getUpperString(int x, int y, Rotation rot, String currentString){
-		if (x > 14 || y > 14)
+		if (x > ROWS-1 || y > COLS-1)
 			return currentString;
 		if (board[x][y] == null)
 			return currentString;
