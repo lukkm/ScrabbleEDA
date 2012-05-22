@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class Board {
+public class Board implements Cloneable{
 
 	private Letter[][] board = new Letter[15][15];
 	private Set<Letter> lettersList = new HashSet<Letter>();
@@ -21,25 +21,40 @@ public class Board {
 		this.dictionary = dict;
 	}
 	
-	public Board(Board board, Dictionary dict, List<Letter> locatedLetters) {
+	private Board(Board board, Dictionary dict, List<Letter> locatedLetters) {
 		this(dict);
-		for (Letter l : board.getLettersList()){
-			Letter addLetter =  new Letter(l.getValue(), l.getX(), l.getY(), l.getRotation());
-			this.board[l.getX()][l.getY()] = addLetter;
-			lettersList.add(addLetter);
-		}
+		for (Letter l : board.getLettersList())
+			addLetter(l.clone());
 		this.boardScore = board.boardScore;
 		this.locatedLetters = locatedLetters;
+	}
+	
+	public Board clone(){
+		return new Board(this, dictionary, new ArrayList<Letter>(7));
+	}
+	
+	public void addLetter(Letter addLetter){
+		this.board[addLetter.getX()][addLetter.getY()] = addLetter;
+		lettersList.add(addLetter);
 	}
 	
 	public Set<Letter> getLettersList(){
 		return lettersList;
 	}
 	
+	public int getOffSetX(int startPosition, int cantMoves, Rotation rot){
+		return startPosition + cantMoves * rot.getX();
+	}
+	
+	public int getOffSetY(int startPosition, int cantMoves, Rotation rot){
+		return startPosition + cantMoves * rot.getY();
+	}
+	
+	
 	public boolean addWord(String word, Letter locatedLetter, int charPosition){
-		int offSetX = charPosition * locatedLetter.getRotation().getX();
-		int offSetY = charPosition * locatedLetter.getRotation().getY();
-		return setWord(locatedLetter.getX() - offSetX, locatedLetter.getY() - offSetY, word, locatedLetter.getRotation());
+		int xPosition = getOffSetX(locatedLetter.getX(), - charPosition, locatedLetter.getRotation());
+		int yPosition = getOffSetY(locatedLetter.getX(), - charPosition, locatedLetter.getRotation());
+		return setWord(xPosition, yPosition, word, locatedLetter.getRotation());
 	}
 	
 	public boolean setWord(int startX, int startY, String word, Rotation rot){
@@ -47,16 +62,16 @@ public class Board {
 		if (!validateWordMargins(startX, startY, length, rot))
 			return false;
 		for (int i = 0; i < length; i++){
-			int posX = startX + i * rot.getX();
-			int posY = startY + i * rot.getY();
+			int posX = getOffSetX(startX, i, rot);
+			int posY = getOffSetY(startY, i, rot);
 			if (board[posX][posY] != null && board[posX][posY].getValue() != word.charAt(i))
 				return false;
 			if(!verticalCrossCheck(startX, startY, length, rot, word) || !crossCheck(word.charAt(i), posX, posY, rot.change()))
 					return false;
 		}
 		for (int i = 0; i < length; i++){
-			int posX = startX + i * rot.getX();
-			int posY = startY + i * rot.getY();
+			int posX = getOffSetX(startX, i, rot);
+			int posY = getOffSetY(startY, i, rot);
 			Letter l;
 			if (board[posX][posY] == null){
 				l = new Letter(word.charAt(i), posX, posY, rot.change());
@@ -74,7 +89,7 @@ public class Board {
 	private boolean validateWordMargins(int startX, int startY, int length, Rotation rot){
 		if (startX < 0 || startX > board.length -1 || startY < 0 || startY > board[0].length -1)
 			return false;
-		if (startX + length * rot.getX() > board.length || startY + length * rot.getY() > board[0].length)
+		if (getOffSetX(startX, length, rot) > board.length || getOffSetY(startY, length, rot) > board[0].length)
 			return false;
 		return true;
 	}

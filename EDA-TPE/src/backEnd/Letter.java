@@ -1,7 +1,7 @@
 package backEnd;
 import helpers.Rotation;
 
-public class Letter {
+public class Letter implements Cloneable{
 
 	private Character value;
 	private int x = -1;
@@ -64,6 +64,10 @@ public class Letter {
 		if (y != other.y)
 			return false;
 		return true;
+	}
+	
+	public Letter clone(){
+		return new Letter(getValue(), getX(), getY(), getRotation());
 	}
 
 }
