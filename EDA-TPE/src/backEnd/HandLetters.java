@@ -47,8 +47,8 @@ public class HandLetters {
 					this.checkSum -= letters[i];
 					letters[i] = 0;
 				}
-				else {
-					int difference = letters[i] - letterUsed[i] + 1;
+			else {
+					int difference = letters[i] - letterUsed[i] + 1; //4
 					eraseLetters(i, difference, wordsList);
 				}
 			}
@@ -63,7 +63,7 @@ public class HandLetters {
 					maxTimes = aux;
 			}
 		}
-		letters[charIndex] -= (difference - maxTimes);
+		letters[charIndex] -= (difference - maxTimes); // 2 - 
 		this.checkSum -= (difference - maxTimes);
 	}
 	
@@ -72,12 +72,11 @@ public class HandLetters {
 		int[] letterAppearences = new int[26];
 		while (stringIt.hasNext())
 			letterAppearences[stringIt.next() - 'A']++;
-		int count = difference;
-		boolean flag = true;
-		for (int i = 0 ; i < 26 && flag ; i++) {
+		int count = 1;
+		for (int i = 0 ; i < 26 ; i++) {
 			if (letterAppearences[i] != 0 && letters[i] != 0) {
 				int aux = (int) (letters[i] / letterAppearences[i]);
-				if ( aux < count)
+				if ( aux <= difference && aux > count)
 					count = aux;
 			}
 		}

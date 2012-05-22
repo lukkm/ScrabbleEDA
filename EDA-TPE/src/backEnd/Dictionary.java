@@ -70,6 +70,13 @@ public class Dictionary {
 			}
 		}
 	}
+	
+	public void printWords() {
+		for (Node n : trees) {
+			if (n != null)
+				n.printWords();
+		}
+	}
 
 	public List<String> filterWordsWith(int[] letters, char c) {
 
@@ -112,6 +119,16 @@ public class Dictionary {
 		public Node(Character value, String previousWord) {
 			this.value = value;
 			this.word = new Word(previousWord + value);
+			if (word.value.equals("MONITOR"))
+				System.out.println("hola");
+		}
+		
+		public void printWords() {
+			if (end)
+				System.out.println(word.value);
+			for (Node n : sons)
+				if (n != null)
+					n.printWords();
 		}
 
 		public boolean validateNode(int[] letters) {
@@ -164,6 +181,8 @@ public class Dictionary {
 		}
 
 		public void getFilterWords(int[] letters, List<String> lst) {
+//			if (word.value.equals("MONITOR"))
+//				System.out.println("HOLA");
 			if (word.getAppearencesOf(value) <= letters[value - 'A']) {
 				if (end)
 					lst.add(word.getWord());

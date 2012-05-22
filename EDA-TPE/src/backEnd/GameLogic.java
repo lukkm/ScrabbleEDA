@@ -55,8 +55,12 @@ public class GameLogic {
 			return;
 		}
 		List<String> wordsList;
+//		dictionary.printWords();
 		List<Letter> charList = board.getAvailableLetters();
 		if (charList.isEmpty()) {
+			for (int i : letters.getLetters())
+				System.out.print(i + ", ");
+			System.out.println();
 			wordsList = dictionary.filterWords(letters.getLetters());
 			if (wordsList.isEmpty()) {
 				return;
@@ -164,9 +168,9 @@ public class GameLogic {
 				letterUsed[itString.next() - 'A']++;
 			}
 		}
-		for (int i : letterUsed)
-			System.out.print(i + ", ");
-		System.out.println();
+//		for (int i : letterUsed)
+//			System.out.print(i + ", ");
+//		System.out.println();
 		return letterUsed;
 	}
 }
