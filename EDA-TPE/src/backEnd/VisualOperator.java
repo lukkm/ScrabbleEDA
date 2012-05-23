@@ -13,7 +13,7 @@ public class VisualOperator {
 	public void printBoard(Board b){
 		if(gameFrame != null){
 			try {
-				Thread.sleep(50);
+				Thread.sleep(25);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 				return;

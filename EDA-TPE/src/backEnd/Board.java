@@ -13,7 +13,6 @@ public class Board implements Cloneable{
 	private final int ROWS = 15, COLS = 15;
 	private Letter[][] board = new Letter[ROWS][COLS];
 	private Set<Letter> lettersList = new HashSet<Letter>();
-	private static final int[][] primes = new Primes().getPrimes(); 
 	private Dictionary dictionary;
 	private int boardScore;
 	private List<Letter> locatedLetters;
@@ -173,30 +172,5 @@ public class Board implements Cloneable{
 			System.out.println();
 		}
 		System.out.println("PUNTOS: " + this.boardScore);
-	}
-
-	public int hashCode() {
-		
-		int result = 0;
-		for (Letter l : lettersList) {
-			result *= Math.pow(primes[l.getX()][l.getY()], l.hashCode());
-		}
-		return result;
-	}
-
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Board other = (Board) obj;
-		if (lettersList == null) {
-			if (other.lettersList != null)
-				return false;
-		} else if (!lettersList.equals(other.lettersList))
-			return false;
-		return true;
 	}
 }

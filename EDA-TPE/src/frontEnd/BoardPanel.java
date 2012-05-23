@@ -16,11 +16,12 @@ public class BoardPanel extends JPanel{
 	private final int cellSize = 30;
 	private final int spanLeft = 12, spanBot = 10;
 	private final int rows = 15, columns = 15;
-	private final Color gridColor = Color.PINK;
+	private final Color gridColor = Color.GREEN;
 	private Set<Letter> letterList = new HashSet<Letter>();	
 	
 	public BoardPanel() {
 		setSize(columns * (cellSize + 1), rows * (cellSize + 1));
+		setBackground(Color.BLACK);
 	}
 	
 	public void paint(Graphics g) {

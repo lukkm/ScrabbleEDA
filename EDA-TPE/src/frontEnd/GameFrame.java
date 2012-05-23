@@ -1,6 +1,7 @@
 package frontEnd;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 
 import javax.swing.JFrame;
 
@@ -15,6 +16,7 @@ public class GameFrame extends JFrame {
 		this.panel = new BoardPanel();
 		add(panel, BorderLayout.CENTER);
 		setSize(465, 490);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
 	public void printBoard(Board b){

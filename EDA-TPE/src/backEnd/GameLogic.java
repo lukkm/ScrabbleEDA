@@ -59,7 +59,7 @@ public class GameLogic {
 				this.letters.eraseLetters(getUnusedLetters(wordsList), wordsList);
 				firstStep = false;
 			}
-			return locateAllWords(wordsList, board);
+			return locateAllWords(wordsList, null, board);
 			
 		} else {
 			boolean isFinal = true;
@@ -72,7 +72,7 @@ public class GameLogic {
 				letters.takeLetter(l.getValue());
 				if (!wordsList.isEmpty()) {
 					isFinal = false;
-					if (locateAllWordsIn(wordsList, l, board))
+					if (locateAllWords(wordsList, l, board))
 						return true;
 				}
 			}
@@ -82,24 +82,14 @@ public class GameLogic {
 		return false;
 	}
 
-	private boolean locateAllWords(List<String> wordsList, Board board) {
+	private boolean locateAllWords(List<String> wordsList, Letter l, Board board) {
 		for (String s : wordsList) {
 			for (int i = 0; i < s.length(); i++) {
-				Letter l = new Letter(s.charAt(i), 7, 7, Rotation.HORIZONTAL);
-				if (takeStep(s, l, board, i, true))
-					return true;
-			}
-		}
-		return false;
-	}
-
-	private boolean locateAllWordsIn(List<String> wordsList, Letter l, Board board) {
-		for (String s : wordsList) {
-			for (int i = 0; i < s.length(); i++) {
-				if (s.charAt(i) == l.getValue()) {
+				if (l == null)
+					l = new Letter(s.charAt(i), 7, 7, Rotation.HORIZONTAL);
+				if (s.charAt(i) == l.getValue()) 
 					if (takeStep(s, l, board, i, false))
 						return true;
-				}
 			}
 		}
 		return false;
