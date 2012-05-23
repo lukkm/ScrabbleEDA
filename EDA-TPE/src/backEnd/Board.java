@@ -1,6 +1,5 @@
 package backEnd;
 
-import helpers.Primes;
 import helpers.Rotation;
 
 import java.util.ArrayList;
