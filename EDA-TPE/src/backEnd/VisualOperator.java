@@ -15,8 +15,6 @@ public class VisualOperator {
 			try {
 				Thread.sleep(25);
 			} catch (InterruptedException e) {
-				e.printStackTrace();
-				return;
 			}
 			gameFrame.printBoard(b);
 		}
