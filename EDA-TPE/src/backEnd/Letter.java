@@ -36,7 +36,7 @@ public class Letter implements Cloneable{
 	}
 	
 	public int hashCode() {
-		final int[] primes = {2, 3, 5};
+		final int[] primes = {389, 601, 983};
 		int result = 1;
 		result = primes[0] * result * ((value == null) ? 1 : value.hashCode());
 		result = primes[1] * result * (x);
