@@ -1,8 +1,9 @@
 package main;
 
 import frontEnd.GameFrame;
+import helpers.ArgumentSelector;
 import helpers.CharValues;
-import helpers.Parser;
+import helpers.IOHandler;
 
 import java.util.List;
 import java.util.Set;
@@ -17,39 +18,30 @@ public class MainClass {
 
 	public static void main(String[] args){
 		
-		CharValues scores = new CharValues();
-		Parser parser = new Parser();
+		IOHandler handler = new IOHandler();
 		
-		List<String> list = null;
-		if (args.length >= 1)
-			list = parser.parseWords("C:\\Pruebas\\archivos\\" + args[0]);
+		ArgumentSelector arguments = null;
+		try {
+			arguments = new ArgumentSelector(args);
+		} catch (Exception e) {
+			System.out.println("Argumentos invalidos!");
+			return;
+		}
 		
-		HandLetters letters = null;
-		if (args.length >= 2)
-			letters = new HandLetters(parser.parseLetters("C:\\Pruebas\\archivos\\" + args[1]));
+		List<String> list = handler.getWords("C:\\Pruebas\\archivos\\" + arguments.getDictionaryFile());
 		
-		GameFrame gameFrame = null;
-		if (args.length >= 4)
-			gameFrame = setGameFrame(args[3]);
+		HandLetters letters = new HandLetters(handler.getHandLetters("C:\\Pruebas\\archivos\\" + arguments.getLettersFile())); 
 		
-		long a = System.currentTimeMillis();
+		GameFrame gameFrame = generateGameFrame(arguments.isVisual());
 		
-		Dictionary dictionary = new Dictionary(scores);
+		Dictionary dictionary = new Dictionary(new CharValues());
 		dictionary.addWords(list);
 		
-		int maxTime = 0;
-		if (args.length >= 6)
-			maxTime = getMaxTime(args[4], args[5]);
+		long a = System.currentTimeMillis();
+		GameLogic game = new GameLogic(dictionary, letters, new VisualOperator(gameFrame), arguments.getMaxTime());		
 		
-		GameLogic game = new GameLogic(dictionary, letters, new VisualOperator(gameFrame), maxTime);
+		generateOutputFile(game.startGame(), handler, arguments.getOutputFile());
 		
-		Set<Letter> out = game.startGame();
-		
-		String fileName = "out.txt";
-		if (args.length >= 3)
-			fileName = args[2];
-		parser.printSolution(out, "C:\\Pruebas\\archivos\\" + fileName);		
-			
 		System.out.println("TIEMPO: " + (System.currentTimeMillis() - a));
 		
 		if (gameFrame != null)
@@ -57,22 +49,13 @@ public class MainClass {
 		
 	}
 	
-	private static GameFrame setGameFrame(String arg) {
-		GameFrame gameFrame = null;
-		if (arg != null && arg.equals("[-visual]")) {
-			gameFrame = new GameFrame();
-			gameFrame.setVisible(true);
-		}
-		return gameFrame;
+	private static void generateOutputFile(Set<Letter> out, IOHandler handler, String filename) {
+		handler.printSolution(out, "C:\\Pruebas\\archivos\\" + filename);
 	}
 	
-	private static int getMaxTime(String arg1, String arg2) {
-		if (arg1 != null) {
-			if (arg1.substring(0, 9).equals("[-maxtime")) {
-				return Integer.valueOf(arg2.substring(0, arg2.length()-1));
-			}
-			throw new IllegalArgumentException();
-		}
-		return 0;
+	private static GameFrame generateGameFrame(boolean isVisual) {
+		if (isVisual)
+			return new GameFrame();
+		return null;
 	}
 }

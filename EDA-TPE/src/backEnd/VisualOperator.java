@@ -8,6 +8,9 @@ public class VisualOperator {
 	
 	public VisualOperator(GameFrame gameFrame){
 		this.gameFrame = gameFrame;
+		if (gameFrame != null){
+			gameFrame.setVisible(true);
+		}
 	}
 	
 	public void printBoard(Board b){

@@ -13,9 +13,9 @@ import java.util.Set;
 
 import backEnd.Letter;
 
-public class Parser {
+public class IOHandler {
 	
-	public List<String> parseWords(String file){
+	public List<String> getWords(String file){
 		
 		File inputFile = new File(file);
 		BufferedReader inputWords;
@@ -43,7 +43,7 @@ public class Parser {
 		
 	}
 	
-	public String parseLetters(String file){
+	public String getHandLetters(String file){
 		
 		File inputFile = new File(file);
 		BufferedReader inputLetters;
