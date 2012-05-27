@@ -28,21 +28,17 @@ public class MainClass {
 			return;
 		}
 		
+		long startTime = System.currentTimeMillis();
 		List<String> list = handler.getWords("C:\\Pruebas\\archivos\\" + arguments.getDictionaryFile());
-		
 		HandLetters letters = new HandLetters(handler.getHandLetters("C:\\Pruebas\\archivos\\" + arguments.getLettersFile())); 
-		
 		GameFrame gameFrame = generateGameFrame(arguments.isVisual());
-		
 		Dictionary dictionary = new Dictionary(new CharValues());
 		dictionary.addWords(list);
-		
-		long a = System.currentTimeMillis();
 		GameLogic game = new GameLogic(dictionary, letters, new VisualOperator(gameFrame), arguments.getMaxTime());		
 		
 		generateOutputFile(game.startGame(), handler, arguments.getOutputFile());
 		
-		System.out.println("TIEMPO: " + (System.currentTimeMillis() - a));
+		System.out.println("TIEMPO: " + (System.currentTimeMillis() - startTime));
 		
 		if (gameFrame != null)
 			gameFrame.dispose();
