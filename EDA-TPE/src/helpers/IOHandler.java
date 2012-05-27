@@ -15,7 +15,7 @@ import backEnd.Letter;
 
 public class IOHandler {
 	
-	public List<String> getWords(String file){
+	public List<String> getWords(String file) throws FileException{
 		
 		File inputFile = new File(file);
 		BufferedReader inputWords;
@@ -24,8 +24,7 @@ public class IOHandler {
 		try {
 			inputWords = new BufferedReader(new FileReader(inputFile));
 		} catch (FileNotFoundException e) {
-			System.out.println("Archivo no encontrado");
-			return null;
+			throw new FileException("'" + file + "'" + "not found!");
 		}
 		
 		String line;
@@ -37,13 +36,13 @@ public class IOHandler {
 				}
 			}
 		} catch (IOException e) {
-			System.out.println("Archivo invalido");
+			throw new FileException("'" + file + "'" + " is not a valid dictionary file!");
 		}
 		return lstReturn;
 		
 	}
 	
-	public String getHandLetters(String file){
+	public String getHandLetters(String file) throws FileException{
 		
 		File inputFile = new File(file);
 		BufferedReader inputLetters;
@@ -51,8 +50,7 @@ public class IOHandler {
 		try {
 			inputLetters = new BufferedReader(new FileReader(inputFile));
 		} catch (FileNotFoundException e) {
-			System.out.println("Archivo no encontrado");
-			return null;
+			throw new FileException("'" + file + "'" + " not found!");
 		}
 		
 		String line;
@@ -64,7 +62,7 @@ public class IOHandler {
 			if (validateLetters(line))
 				return line.toUpperCase();
 		} catch (IOException e) {
-			System.out.println("Archivo invalido");
+			throw new FileException("'" + file + "'" + " is not a valid letters file!");
 		}
 		
 		return "";

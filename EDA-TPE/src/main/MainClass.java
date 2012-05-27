@@ -3,6 +3,7 @@ package main;
 import frontEnd.GameFrame;
 import helpers.ArgumentSelector;
 import helpers.CharValues;
+import helpers.FileException;
 import helpers.IOHandler;
 
 import java.util.List;
@@ -29,8 +30,18 @@ public class MainClass {
 		}
 		
 		long startTime = System.currentTimeMillis();
-		List<String> list = handler.getWords("C:\\Pruebas\\archivos\\" + arguments.getDictionaryFile());
-		HandLetters letters = new HandLetters(handler.getHandLetters("C:\\Pruebas\\archivos\\" + arguments.getLettersFile())); 
+		
+		List<String> list;
+		HandLetters letters;
+		try {
+			letters = new HandLetters(handler.getHandLetters("C:\\Pruebas\\archivos\\" + arguments.getLettersFile()));
+			list = handler.getWords("C:\\Pruebas\\archivos\\" + arguments.getDictionaryFile());
+		} catch (FileException e) {
+			System.out.println(e);
+			return;
+		}
+
+				
 		GameFrame gameFrame = generateGameFrame(arguments.isVisual());
 		Dictionary dictionary = new Dictionary(new CharValues());
 		dictionary.addWords(list);
