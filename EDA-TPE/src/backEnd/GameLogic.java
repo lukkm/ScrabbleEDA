@@ -58,6 +58,10 @@ public class GameLogic {
 	 *  Once this is done, calls the method locateAllWords() which if responsible
 	 *  for checking where is it possible to cross the words.
 	 *  
+	 *  If this method is called for the first time, erases the letters that are'nt 
+	 *  possible to use because they do not appear in the words that can be made from
+	 *  the dictionary.
+	 *  
 	 *  Once a final solution is reached, calls the isSolution() method which 
 	 *  determines if the solution found is the better than the other solutions
 	 *  found before.
@@ -198,10 +202,25 @@ public class GameLogic {
 		return null;
 	}
 
+	/*
+	 * isSolution(Board board)
+	 * 
+	 * Determines if the board received by parameter has a better score than the one 
+	 * saved in the instance variable bestSolution. In case the score is better, changes
+	 * the instance variable to a reference of the new board.
+	 */
+	
 	private void isSolution(Board board) {
 		if (this.bestSolution.getBoardScore() < board.getBoardScore())
 			this.bestSolution = board;
 	}
+	
+	/*
+	 * getUnusedLetters(List<String> wordsList)
+	 * 
+	 * Given a list of words, returns the amount of appearances of each letter
+	 * in all the words.
+	 */
 	
 	private int[] getUnusedLetters(List<String> wordsList) {
 		int[] letterUsed = new int[26];
