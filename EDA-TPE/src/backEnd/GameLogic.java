@@ -21,6 +21,7 @@ public class GameLogic {
 	private boolean firstStep = true;
 	private long startTime, maxTime;
 
+
 	public GameLogic(Dictionary dictionary, HandLetters letters,
 					VisualOperator visualOp, int maxTime) {
 		this.dictionary = dictionary;
@@ -29,6 +30,16 @@ public class GameLogic {
 		this.maxTime = (long) (maxTime * 1000);
 		this.startTime = System.currentTimeMillis();
 	}
+	
+	/*
+	 * startGame()
+	 * 
+	 *  Creates an instance of an empty board and calls the recursive method
+	 *  calculateStep() which sets the instance variable bestSolution with another 
+	 *  board containing the solution having the best score.
+	 *  After calling calculateStep(), prints the best solution and returns its 
+	 *  letter list. 
+	 */
 
 	public Set<Letter> startGame() {
 		Board board = new Board(dictionary);
@@ -37,6 +48,26 @@ public class GameLogic {
 		bestSolution.print();
 		return bestSolution.getLettersList();
 	}
+	
+	/*
+	 * calculateStep(Board board)
+	 *
+	 *  Given one board and the dictionary as instance variable, calculates all
+	 *  possible words that can be added in the board that cross at least one 
+	 *  of the letters in it. 
+	 *  Once this is done, calls the method locateAllWords() which if responsible
+	 *  for checking where is it possible to cross the words.
+	 *  
+	 *  Once a final solution is reached, calls the isSolution() method which 
+	 *  determines if the solution found is the better than the other solutions
+	 *  found before.
+	 *  
+	 *  This method also validates that the time hasn't yet exceeded the maximum time
+	 *  and that the solution found in this board isn't the best possible solution.
+	 *  In any of this 2 cases, returns true, disarming the recursion and returning 
+	 *  to the main program with a solution. 
+	 *  
+	 */
 
 	public boolean calculateStep(Board board) {
 		if (maxTime != 0
@@ -81,6 +112,18 @@ public class GameLogic {
 		}
 		return false;
 	}
+	
+	/*
+	 * locateAllWords(List<String> wordsList, Letter l, Board board)
+	 * 
+	 * Given a list of words, one board and one anchor Letter on it, tries
+	 * to put every word of the list in every possible shift crossing the 
+	 * Letter that is already set on the board.
+	 * Once the shift is calculated, calls the method takeStep() to actually
+	 * locate it on the board.
+	 * 
+	 * Returns true when the best solution is found or the maximum time is exceeded. 
+	 */
 
 	private boolean locateAllWords(List<String> wordsList, Letter l, Board board) {
 		for (String s : wordsList) {
@@ -94,6 +137,22 @@ public class GameLogic {
 		}
 		return false;
 	}
+	
+	/*
+	 * takeStep(String word, Letter letter, Board board,
+	 * 		int charPosition, boolean firstStep)
+	 *
+	 * Given one board, one word, an anchor letter also contained in the word
+	 * and its relative position into the word, calls the function locateWord()
+	 * which returns a new board with the word positioned if it is possible to put 
+	 * it, or null if it's not possible to put the word in that location.
+	 * 
+	 * Once this is done, adds the new board into a set, in order to filter the 
+	 * intermediate solutions that have already been processed. ("PODA" algorithm).
+	 * 
+	 * Also, calls the method printBoard() of the visual operator, printing each
+	 * new board generated.
+	 */
 
 	private boolean takeStep(String word, Letter letter, Board board,
 			int charPosition, boolean firstStep) {
@@ -115,6 +174,20 @@ public class GameLogic {
 		stepStack.pop().refreshLetters(letters);
 		return ret;
 	}
+	
+	/*
+	 * locateWord(Board board, String word, Letter l, 
+	 * 		int letterPosition, List<Letter> locatedLetters)
+	 * 
+	 * Given one board, one word, an anchor letter also contained in the word
+	 * and its relative position into the word, clones the board and calls the
+	 * method addWord() in the new board, in order to add to it the word anchored to
+	 * the letter received by parameter.
+	 * 
+	 * If the word can't be added to the board, checks with the method isSolution()
+	 * if the score of the new board is better than the previous one.
+	 * 
+	 */
 
 	private Board locateWord(Board board, String word, Letter l,
 			int letterPosition, List<Letter> locatedLetters) {
