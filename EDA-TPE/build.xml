@@ -1,0 +1,22 @@
+
+<project name="Scrabble" default="jar" basedir=".">
+
+	<target name="compile">
+		<mkdir dir="bin"/>
+		<javac srcdir="src" destdir ="bin"/>
+	</target>
+	
+	<target name="jar" depends="compile">
+        <jar destfile="ScrabbleEDA.jar" basedir="bin">
+			<manifest>
+        	    <attribute name="Main-Class" value="main.MainClass.java"/>
+            </manifest>
+        </jar>
+    </target>
+
+	<target name="clean">
+        <delete dir="bin"/>
+        <delete file="ScrabbleEDA.jar"/>
+    </target>
+    
+</project>
