@@ -13,14 +13,26 @@ public class Dictionary {
 	private Node[] trees = new Node[26];
 	private Map<Character, List<Node>> charAppearences = new HashMap<Character, List<Node>>();
 	private CharValues scores;
-
+	
 	public Dictionary(CharValues scores) {
 		this.scores = scores;
 	}
+	
+	/*
+	 * getScore(Letter l)
+	 * 
+	 * Returns the score of a letter.
+	 */
 
 	public int getScore(Letter l) {
 		return scores.getScore(l.getValue());
 	}
+	
+	/*
+	 * containsWord(String s)
+	 * 
+	 * Given a word, returns true if its contained in the dictionary, false if not.
+	 */
 
 	public boolean containsWord(String s) {
 		StringIterator it = new StringIterator(s);
@@ -31,20 +43,24 @@ public class Dictionary {
 			return false;
 		return trees[firstChar - 'A'].containsWord(it);
 	}
-
-	public List<String> getAppearencesWith(Character value) {
-		List<String> newList = new ArrayList<String>();
-		for (Node n : charAppearences.get(value)) {
-			n.getWords(newList);
-		}
-		return newList;
-	}
-
+	
+	/*
+	 * addWords(List<String> wordsList)
+	 * 
+	 * Given a list of words, adds it to the dictionary.
+	 */
+	
 	public void addWords(List<String> wordsList) {
 		for (String word : wordsList)
 			addWord(word);
 		updateAppearences();
 	}
+	
+	/*
+	 * addWord(String word)
+	 * 
+	 * Given a word, adds it to the dictionary.
+	 */
 
 	private void addWord(String word) {
 
@@ -57,6 +73,13 @@ public class Dictionary {
 			trees[offSet] = new Node(firstChar, "");
 		trees[offSet].addWord(it);
 	}
+	
+	/*
+	 * updateAppearences()
+	 * 
+	 * Updates the instance variable charAppearences with the list of every first
+	 * appearance of every letter in a word.
+	 */
 
 	private void updateAppearences() {
 		for (char i = 'A'; i <= 'Z'; i++) {
@@ -70,18 +93,25 @@ public class Dictionary {
 			}
 		}
 	}
+
+	/*
+	 * filterWordsWith(int[] letters, char c)
+	 * 
+	 * Wrapper function for filterWordsWith(int[] letters, char c, int maxLength),
+	 * calls it with maxLength on -1.
+	 */
 	
-	public void printWords() {
-		for (Node n : trees) {
-			if (n != null)
-				n.printWords();
-		}
-	}
-
 	public List<String> filterWordsWith(int[] letters, char c) {
-
 		return filterWordsWith(letters, c, -1);
 	}
+	
+	/*
+	 * filterWordsWith(int[] letters, char c, int maxLength)
+	 * 
+	 * Returns a list of all the words from the dictionary that can be formed with
+	 * the letters in the array with a specified contained character and with a 
+	 * maximum length.
+	 */
 
 	public List<String> filterWordsWith(int[] letters, char c, int maxLength) {
 
@@ -95,6 +125,13 @@ public class Dictionary {
 
 		return lstAns;
 	}
+	
+	/*
+	 * filterWords(int[] letters)
+	 * 
+	 * Returns a list of all the words from the dictionary that can be formed with
+	 * the letters in the array.
+	 */
 
 	public List<String> filterWords(int[] letters) {
 
@@ -185,15 +222,6 @@ public class Dictionary {
 				for (Node n : sons)
 					if (n != null)
 						n.getFilterWords(letters, lst);
-			}
-		}
-
-		public void getWords(List<String> list) {
-			if (end)
-				list.add(word.getWord());
-			for (Node n : sons) {
-				if (n != null)
-					n.getWords(list);
 			}
 		}
 
