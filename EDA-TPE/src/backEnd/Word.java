@@ -14,6 +14,13 @@ public class Word {
 		generateLetterAppearences();
 	}
 	
+	/*
+	 * generateLetterAppearences()
+	 * 
+	 * Generates a map with the amount of appearances of each character in the word
+	 * and sets the instance variable letterApeearences with it.
+	 */
+	
 	private void generateLetterAppearences(){
 		for (Character c: value.toCharArray()) {
 			if (letterAppearences.containsKey(c))
@@ -23,16 +30,27 @@ public class Word {
 		}	
 	}
 	
-	public String getWord() {
-		return this.value;
-	}
+	/*
+	 * getAppearencesOf(Character c)
+	 * 
+	 * Gets the amount of appearances of the character received by parameter in the word.
+	 */
 	
 	public int getAppearencesOf(Character c){
 		return letterAppearences.get(c);
 	}
 	
+	/*
+	 * getChars()
+	 * 
+	 * Returns a set with all the characters that appear in the word.
+	 */
+	
 	public Set<Character> getChars(){
 		return letterAppearences.keySet();
 	}
 
+	public String getWord() {
+		return this.value;
+	}
 }

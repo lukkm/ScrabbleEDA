@@ -157,14 +157,6 @@ public class Dictionary {
 			this.value = value;
 			this.word = new Word(previousWord + value);
 		}
-		
-		public void printWords() {
-			if (end)
-				System.out.println(word.value);
-			for (Node n : sons)
-				if (n != null)
-					n.printWords();
-		}
 
 		public boolean validateNode(int[] letters) {
 			for (Character c : word.getChars()) {

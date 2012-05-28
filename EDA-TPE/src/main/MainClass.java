@@ -19,6 +19,7 @@ public class MainClass {
 
 	public static void main(String[] args){
 		
+		System.getProperty("user.dir");
 		IOHandler handler = new IOHandler();
 		
 		ArgumentSelector arguments = null;
@@ -29,13 +30,11 @@ public class MainClass {
 			return;
 		}
 		
-		long startTime = System.currentTimeMillis();
-		
 		List<String> list;
 		HandLetters letters;
 		try {
-			letters = new HandLetters(handler.getHandLetters("C:\\Pruebas\\archivos\\" + arguments.getLettersFile()));
-			list = handler.getWords("C:\\Pruebas\\archivos\\" + arguments.getDictionaryFile());
+			letters = new HandLetters(handler.getHandLetters(arguments.getLettersFile()));
+			list = handler.getWords(arguments.getDictionaryFile());
 		} catch (FileException e) {
 			System.out.println(e);
 			return;
@@ -49,15 +48,13 @@ public class MainClass {
 		
 		generateOutputFile(game.startGame(), handler, arguments.getOutputFile());
 		
-		System.out.println("TIEMPO: " + (System.currentTimeMillis() - startTime));
-		
 		if (gameFrame != null)
 			gameFrame.dispose();
 		
 	}
 	
 	private static void generateOutputFile(Set<Letter> out, IOHandler handler, String filename) {
-		handler.printSolution(out, "C:\\Pruebas\\archivos\\" + filename);
+		handler.printSolution(out, filename);
 	}
 	
 	private static GameFrame generateGameFrame(boolean isVisual) {
