@@ -19,15 +19,16 @@ public class GameLogic {
 	private Deque<Step> stepStack = new LinkedList<Step>();
 	private Set<Set<Letter>> previousBoards = new HashSet<Set<Letter>>();
 	private boolean firstStep = true;
-	private long startTime, maxTime;
+	private long startTime;
+	private double maxTime;
 
 
 	public GameLogic(Dictionary dictionary, HandLetters letters,
-					VisualOperator visualOp, int maxTime) {
+					VisualOperator visualOp, double maxTime) {
 		this.dictionary = dictionary;
 		this.letters = letters;
 		this.visualOp = visualOp;
-		this.maxTime = (long) (maxTime * 1000);
+		this.maxTime =  (maxTime * 1000);
 		this.startTime = System.currentTimeMillis();
 	}
 	

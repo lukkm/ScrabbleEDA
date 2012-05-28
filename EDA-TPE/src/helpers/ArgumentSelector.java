@@ -6,7 +6,7 @@ public class ArgumentSelector {
 	private String lettersFile;
 	private String outputFile;
 	private boolean isVisual = false;
-	private int maxTime = 0;
+	private double maxTime = 0;
 	
 	public ArgumentSelector(String[] args){
 		parseArguments(args);
@@ -48,7 +48,7 @@ public class ArgumentSelector {
 		return this.isVisual;
 	}
 	
-	public int getMaxTime(){
+	public double getMaxTime(){
 		return this.maxTime;
 	}
 	
