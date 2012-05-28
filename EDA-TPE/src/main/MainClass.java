@@ -26,7 +26,7 @@ public class MainClass {
 		try {
 			arguments = new ArgumentSelector(args);
 		} catch (Exception e) {
-			System.out.println("Argumentos invalidos!");
+			System.out.println("Invalid arguments!");
 			return;
 		}
 		
