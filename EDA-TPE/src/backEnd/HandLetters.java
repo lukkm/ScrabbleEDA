@@ -1,7 +1,5 @@
 package backEnd;
 
-import java.util.List;
-
 public class HandLetters {
 
 	int[] letters = new int[26];
@@ -16,6 +14,12 @@ public class HandLetters {
 		}
 	}
 	
+	/*
+	 * getLetters()
+	 * 
+	 * Returns the array of available letters.
+	 */
+	
 	public int[] getLetters(){
 		return letters;
 	}
@@ -24,21 +28,46 @@ public class HandLetters {
 		return checkSum == 0;
 	}
 	
+	/*
+	 * takeLetter(char c)
+	 * 
+	 * Takes one letter from the array of available letters.
+	 */
+	
 	public void takeLetter(char c) {
 		letters[c - 'A']--;
 		checkSum--;
 	}
 	
+	/*
+	 * putLetter(char c)
+	 * 
+	 * Puts one letter into the array of available letters.
+	 */
+	
 	public void putLetter(char c) {
 		putLetter(c, 1);
 	}
+	
+	/*
+	 * putLetter(char c, int quantity)
+	 * 
+	 * Puts a quantity of letters into the array of available letters.
+	 */
 	
 	public void putLetter(char c, int quantity) {
 		letters[c - 'A'] += quantity;
 		checkSum += quantity;
 	}
 	
-	public void eraseLetters(int[] letterUsed, List<String> wordsList) {
+	/* eraseLetters(int[] letterUsed, List<String> wordsList)
+	 * 
+	 * Given an array with the information of the letters used, erases that amount
+	 * of letters from the array of letters available to use, also refreshing the
+	 * checkSum of this array.
+	 */
+	
+	public void eraseLetters(int[] letterUsed) {
 		for (int i = 0; i < 26 ; i++){
 			if (letterUsed[i] == 0) {
 				this.checkSum -= letters[i];

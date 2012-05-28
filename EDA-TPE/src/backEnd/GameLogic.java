@@ -91,7 +91,7 @@ public class GameLogic {
 				return false;
 			
 			if (firstStep) {
-				this.letters.eraseLetters(getUnusedLetters(wordsList), wordsList);
+				this.letters.eraseLetters(getUnusedLetters(wordsList));
 				firstStep = false;
 			}
 			return locateAllWords(wordsList, null, board);
