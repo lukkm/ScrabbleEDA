@@ -9,7 +9,7 @@
 	<target name="jar" depends="compile">
         <jar destfile="ScrabbleEDA.jar" basedir="bin">
 			<manifest>
-        	    <attribute name="Main-Class" value="main.MainClass.java"/>
+        	    <attribute name="Main-Class" value="main.MainClass"/>
             </manifest>
         </jar>
     </target>
