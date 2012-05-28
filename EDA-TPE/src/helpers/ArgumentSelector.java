@@ -27,8 +27,8 @@ public class ArgumentSelector {
 				auxString.matches("-maxtime[0-9]*");
 				this.maxTime = Integer.valueOf(args[5]);
 			}			
-		} else if (args.length > 4 && args[3].concat(args[4]).matches("-maxtime[0-9]*")) {
-			this.maxTime = Integer.valueOf(args[4]);
+		} else if (args.length > 4 && args[3].concat(args[4]).matches("-maxtime[0-9]*[.[0-9]*]+")) {
+			this.maxTime = Double.valueOf(args[4]);
 		}
 	}
 	

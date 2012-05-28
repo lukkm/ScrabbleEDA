@@ -69,11 +69,24 @@ public class IOHandler {
 	}
 	
 	private boolean isValidWord(String s){
-		return s.matches("[A-Za-z]{2,7}");			
+		return validateString(s, 2, 7);
 	}
 	
 	private boolean validateLetters(String s) {
-		return s.matches("[A-Za-z]{1,80}");
+		return validateString(s, 1, 80);
+	}
+	
+	private boolean validateString(String s, int minSize, int maxSize) {
+		int i = 0;
+		for (char c : s.toCharArray()) {
+			if (!(Character.getType(c) == Character.UPPERCASE_LETTER || 
+					Character.getType(c) == Character.LOWERCASE_LETTER) || 
+					i > maxSize - 1) {
+				return false;
+			}
+			i++;
+		}
+		return (i >= 2);
 	}
 
 	public void printSolution(Set<Letter> out, String file) {

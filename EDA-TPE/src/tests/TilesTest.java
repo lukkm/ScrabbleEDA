@@ -25,7 +25,7 @@ public class TilesTest {
 
 	@Test
 	public void timeTest() {
-		int expectedTimes[] = {200, 200, 8000, 200, 200, 5000};
+		int expectedTimes[] = {200, 200, 200, 200, 200, 200};
 		int expectedScores[] = {34, 11, 20, 34, 67, 67};
 		
 		try {
@@ -41,7 +41,7 @@ public class TilesTest {
 			} catch (FileException e) {
 				return;
 			}
-			gameTest = new GameLogic(dict, letters, new VisualOperator(null), expectedTimes[i-1]/1000);
+			gameTest = new GameLogic(dict, letters, new VisualOperator(null), (double)(expectedTimes[i-1])/1000);
 			Set<Letter> out = gameTest.startGame();
 			int score = 0;
 			for(Letter l : out)
@@ -88,6 +88,22 @@ public class TilesTest {
 		
 		for (String s : wordsList)
 			assertTrue(s.matches("[A-Z]{2,7}"));
+	}
+	
+	@Test
+	public void lettersTest() {
+		String letters;
+		
+		for (int i = 1 ; i < 7 ; i++) {
+			try {
+				letters = parser.getHandLetters("tiles" + i + ".txt");
+			} catch (FileException e) {
+				System.out.println(e);
+				return;
+			}
+			
+			assertTrue(letters.matches("[A-Z]{0,80}"));
+		}
 	}
 	
 }

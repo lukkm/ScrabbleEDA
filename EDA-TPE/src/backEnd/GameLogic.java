@@ -76,7 +76,7 @@ public class GameLogic {
 
 	public boolean calculateStep(Board board) {
 		if (maxTime != 0
-				&& System.currentTimeMillis() - this.startTime >= this.maxTime) {
+				&& (double)(System.currentTimeMillis() - this.startTime) >= this.maxTime) {
 			return true;
 		}
 		if (letters.isEmpty()) {

@@ -39,6 +39,8 @@ public class MainClass {
 			System.out.println(e);
 			return;
 		}
+		
+		long time = System.currentTimeMillis();
 
 				
 		GameFrame gameFrame = generateGameFrame(arguments.isVisual());
@@ -47,6 +49,8 @@ public class MainClass {
 		GameLogic game = new GameLogic(dictionary, letters, new VisualOperator(gameFrame), arguments.getMaxTime());		
 		
 		generateOutputFile(game.startGame(), handler, arguments.getOutputFile());
+		
+		System.out.println(System.currentTimeMillis() - time);
 		
 		if (gameFrame != null)
 			gameFrame.dispose();
